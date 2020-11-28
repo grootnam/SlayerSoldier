@@ -74,8 +74,6 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-
-
     /* 플레이어 움직임에 관한 코드
      */
     void WASD()
@@ -104,6 +102,7 @@ public class PlayerMove : MonoBehaviour
         move.Normalize();
 
         gameObject.transform.position += move * 0.25f * PlayerSpeed;
+        
     }
 
     /* 점프
@@ -114,6 +113,7 @@ public class PlayerMove : MonoBehaviour
         {
             canJump = false;
             gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 150, 0));
+            SoundManager.Instance.PlayerJumpSound();
         }
     }
 
@@ -170,6 +170,7 @@ public class PlayerMove : MonoBehaviour
             Destroy(muzzle_Flash, 1);
 
             // 발사 소리
+            SoundManager.Instance.PlayAttackSound();
 
             // 반동?
             float reboundX = Random.Range(-1.5f, 1.5f) * PlayerGunRebound;
@@ -234,6 +235,7 @@ public class PlayerMove : MonoBehaviour
             armAnimator.SetBool("isReloading", true);
 
             // 장전 소리?
+            SoundManager.Instance.PlayReloadSound();
 
             // 장전 처리
             StartCoroutine(Reloader(3.0f/PlayerReloadSpeed));
