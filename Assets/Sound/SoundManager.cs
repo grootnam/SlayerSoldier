@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
 
-    public AudioClip MainMusic, AttackSound, ReloadSound, JumpSound;
+    public AudioClip MainMusic, AttackSound, ReloadSound, JumpSound, SwordSound, SwordSound2;
     AudioSource MyAudio;
     public static SoundManager Instance;
     public bool isPlaying;
@@ -46,9 +46,19 @@ public class SoundManager : MonoBehaviour
         MyAudio.PlayOneShot(JumpSound);
     }
 
+    public void PlaySwordSound()
+    {
+        MyAudio.PlayOneShot(SwordSound);
+    }
+
+    public void PlaySwordSound2()
+    {
+        MyAudio.PlayOneShot(SwordSound2);
+    }
+
     // Update is called once per frame
     void Update()
     {
-  
+
     }
 }
