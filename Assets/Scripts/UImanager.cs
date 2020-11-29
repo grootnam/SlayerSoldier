@@ -15,6 +15,8 @@ public class UImanager : MonoBehaviour
     public Text Qskill;
     public Text Eskill;
 
+    public Text Shiftskill;
+    public Text Shiftskillcool;
     GameObject Player;
 
     public GameObject ResultPopup;
@@ -49,7 +51,12 @@ public class UImanager : MonoBehaviour
         int leftBullet = GameObject.Find("Player").GetComponent<PlayerMove>().leftBulletNum;
         Bullet.text = leftBullet.ToString();
         
-        //Q, E 스킬
+        //스킬 쿨타임 표시
+        float shiftcool=GameObject.Find("Player").GetComponent<PlayerMove>().Shift_temptime;
+        Shiftskillcool.text="("+shiftcool.ToString("N1")+")";
+
+
+        //Q, E, Shift 스킬
         if (Input.GetKey(KeyCode.Q))
         {
             Qskill.text = "<color=#ff0000>" + "Q" + "</color>";
@@ -66,6 +73,15 @@ public class UImanager : MonoBehaviour
         else
         {
             Eskill.text = "<color=#ffffff>" + "E" + "</color>";
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Shiftskill.text = "<color=#ff0000>" + "Shift" + "</color>";
+        }
+        else
+        {
+            Shiftskill.text = "<color=#ffffff>" + "Shift" + "</color>";
         }
     }
 

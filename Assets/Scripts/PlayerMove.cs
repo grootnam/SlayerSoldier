@@ -6,21 +6,32 @@ public class PlayerMove : MonoBehaviour
 {
     // for mouse move
     float AngleX, AngleY;
-
+    
     // for act
+    Vector3 move;
     bool canJump;
     bool isReloading;
-
+    Rigidbody rigidbody;
     // for shooting
     public int leftBulletNum;
     RaycastHit ray;
     float shootingCool;
+    public GameObject camera;
     public GameObject muzzleFlash;
 
     //for Eskill
     float ECool;
     bool isEskill;
 
+    // 시프트 스킬 (? 왜다들 영어주석이지?)
+    bool isShiftskill;
+    public float ShiftCool=4f;
+
+    [System.NonSerialized]
+    public float Shift_temptime;
+
+    
+    bool isNoDamagetime;
     // for animation
     Animator armAnimator;
 
@@ -36,6 +47,8 @@ public class PlayerMove : MonoBehaviour
     public float PlayerGunReboundRecover;       //총기반동회복
     public int maxBulletNum;                    //장전 탄 수
 
+    public float Shift_no_Damagetime; //shift 무적시간
+
     private void Start()
     {
         // 마우스 커서 숨김 lc ghkaus qkRdmfh dksskrkrp
@@ -43,8 +56,12 @@ public class PlayerMove : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         armAnimator = GameObject.Find("Arm").GetComponent<Animator>();
+        rigidbody = gameObject.GetComponent<Rigidbody>();
+        Shift_temptime=0f;
         isReloading = false;
         isEskill = false;
+        isShiftskill=false;
+        isNoDamagetime=false;
         canJump = true;
     }
 
@@ -60,9 +77,9 @@ public class PlayerMove : MonoBehaviour
     {
         WASD();
         MouseMove();
+        Shiftskill();
         Shoot();
     }
-
     private void OnCollisionExit(Collision collision)
     {
         if(collision.transform.tag == "ground")
@@ -79,12 +96,11 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-
     /* 플레이어 움직임에 관한 코드
      */
     void WASD()
     {
-        Vector3 move = new Vector3(0, 0, 0);
+        move = new Vector3(0, 0, 0);
 
         if (Input.GetKey(KeyCode.W))
         {
@@ -138,9 +154,20 @@ public class PlayerMove : MonoBehaviour
             AngleY = -90;
 
 
-        // 바라보는 방향을 지정
-        gameObject.transform.eulerAngles = new Vector3(AngleY, AngleX, 0.0f);
-        GameObject.Find("Player_Capsule").transform.LookAt(new Vector3(gameObject.transform.forward.x, 1, gameObject.transform.forward.z));
+        /* 바라보는 방향지정
+            SHIFT스킬 사용시, 스킬 사용방향으로 고정
+        */
+        if(isShiftskill==true)
+        {
+            gameObject.transform.eulerAngles = new Vector3(AngleY, AngleX, 0.0f);
+            camera.transform.position=Vector3.Lerp(transform.position,transform.position-new Vector3(0,0.7f,0),0.5f);
+        }
+        else{
+            gameObject.transform.eulerAngles = new Vector3(AngleY, AngleX, 0.0f);
+            GameObject.Find("Player_Capsule").transform.LookAt(new Vector3(gameObject.transform.forward.x, 1, gameObject.transform.forward.z));
+            camera.transform.position=Vector3.Lerp(camera.transform.position,transform.position,0.5f);
+        }
+       
     }
 
     /* 일반공격 및 스킬의 쿨타임 시스템 관련 함수
@@ -150,7 +177,7 @@ public class PlayerMove : MonoBehaviour
         // 각종 쿨타임 적용
         shootingCool -= Time.deltaTime;
         ECool -= Time.deltaTime;
-
+        Shift_temptime -=Time.deltaTime;
 
         // 0 이하인 경우 0으로 만듦
         if (shootingCool <=0)
@@ -161,13 +188,17 @@ public class PlayerMove : MonoBehaviour
         {
             ECool = 0;
         }
+        if(Shift_temptime<=0)
+        {
+            Shift_temptime=0;
+        }
     }
 
     /* 슈팅
      */
     void Shoot()
     {
-        if(Input.GetMouseButton(0) && leftBulletNum > 0 && !isReloading && shootingCool <= 0 && !isEskill)
+        if(Input.GetMouseButton(0) && leftBulletNum > 0 && !isReloading&&!isShiftskill && shootingCool <= 0 && !isEskill)
         {
             // 슈팅 관련 연출
             // 애니메이션
@@ -238,7 +269,7 @@ public class PlayerMove : MonoBehaviour
      */
     void Reload()
     {
-        if(Input.GetKeyDown(KeyCode.R) && (leftBulletNum != maxBulletNum) && !isEskill && !isReloading)
+        if(Input.GetKeyDown(KeyCode.R) && (leftBulletNum != maxBulletNum) && !isEskill && !isReloading&& !isShiftskill)
         {
             isReloading = true;
 
@@ -264,7 +295,8 @@ public class PlayerMove : MonoBehaviour
     */
     void Eskill()
     {
-        if (Input.GetKeyDown(KeyCode.E) && !isEskill && ECool <= 0 &&!isReloading)
+        
+        if (Input.GetKeyDown(KeyCode.E) && !isEskill && ECool <= 0 &&!isReloading&& !isShiftskill)
         {
             isEskill = true;
 
@@ -300,4 +332,37 @@ public class PlayerMove : MonoBehaviour
         isEskill = false;
         armAnimator.SetBool("isEskill", false);
     }
+
+    void Shiftskill()
+    {
+        //모든 스킬과 점프 안할때 가능.
+        if(Input.GetKeyDown(KeyCode.LeftShift) &&Shift_temptime<=0&&!isEskill && !isReloading&&canJump)
+        {
+            isShiftskill=true; //스킬 사용중.
+            Shift_temptime=ShiftCool; //쿨타임 시작!
+            isNoDamagetime=true; //무적!! ON!!!
+            canJump=false;
+
+            rigidbody.AddForce(move*25,ForceMode.Impulse);
+            
+            //무적, 회피시간.
+            StartCoroutine(Shiftskill(0.6f));
+            StartCoroutine(Not_damage(Shift_no_Damagetime));
+        }
+        
+    }
+    IEnumerator Shiftskill(float second)
+    {
+        yield return new WaitForSeconds(second);
+        isShiftskill=false;
+        rigidbody.velocity=Vector3.zero;
+    }
+    //무적시간
+    IEnumerator Not_damage(float second)
+    {
+        yield return new WaitForSeconds(second);
+        isNoDamagetime = false;
+    }
 }
+
+
