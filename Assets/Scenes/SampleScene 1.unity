@@ -8070,6 +8070,8 @@ MonoBehaviour:
   AttackSound: {fileID: 8300000, guid: e4a7183c27793684297165c8624b2f79, type: 3}
   ReloadSound: {fileID: 8300000, guid: 1bd80ce285659564992e9c833ea3b5f0, type: 3}
   JumpSound: {fileID: 8300000, guid: 1788f5f0ef6e5ef4e902dd48bc06d077, type: 3}
+  SwordSound: {fileID: 8300000, guid: 9838c70120633d349a11e514a94c94f0, type: 3}
+  SwordSound2: {fileID: 8300000, guid: 01a5019d31773954aa87c308897ff427, type: 3}
   isPlaying: 1
 --- !u!82 &635349583
 AudioSource:
@@ -8083,7 +8085,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 88f916e7699df984cb79254fefc8024d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.15
+  m_Volume: 0.192
   m_Pitch: 1
   Loop: 1
   Mute: 0

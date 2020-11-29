@@ -17,6 +17,10 @@ public class PlayerMove : MonoBehaviour
     float shootingCool;
     public GameObject muzzleFlash;
 
+    //for Eskill
+    float ECool;
+    bool isEskill;
+
     // for animation
     Animator armAnimator;
 
@@ -40,6 +44,7 @@ public class PlayerMove : MonoBehaviour
 
         armAnimator = GameObject.Find("Arm").GetComponent<Animator>();
         isReloading = false;
+        isEskill = false;
         canJump = true;
     }
 
@@ -47,6 +52,7 @@ public class PlayerMove : MonoBehaviour
     {
         Jump();
         Reload();
+        Eskill();
         coolTime();
     }
 
@@ -143,12 +149,17 @@ public class PlayerMove : MonoBehaviour
     {
         // 각종 쿨타임 적용
         shootingCool -= Time.deltaTime;
+        ECool -= Time.deltaTime;
 
 
         // 0 이하인 경우 0으로 만듦
-        if(shootingCool <=0)
+        if (shootingCool <=0)
         {
             shootingCool = 0;
+        }
+        if (ECool <= 0)
+        {
+            ECool = 0;
         }
     }
 
@@ -156,7 +167,7 @@ public class PlayerMove : MonoBehaviour
      */
     void Shoot()
     {
-        if(Input.GetMouseButton(0) && leftBulletNum > 0 && !isReloading && shootingCool <= 0)
+        if(Input.GetMouseButton(0) && leftBulletNum > 0 && !isReloading && shootingCool <= 0 && !isEskill)
         {
             // 슈팅 관련 연출
             // 애니메이션
@@ -227,7 +238,7 @@ public class PlayerMove : MonoBehaviour
      */
     void Reload()
     {
-        if(Input.GetKeyDown(KeyCode.R) && (leftBulletNum != maxBulletNum))
+        if(Input.GetKeyDown(KeyCode.R) && (leftBulletNum != maxBulletNum) && !isEskill && !isReloading)
         {
             isReloading = true;
 
@@ -249,5 +260,44 @@ public class PlayerMove : MonoBehaviour
         armAnimator.SetBool("isReloading", false);
     }
 
+    /* E스킬
+    */
+    void Eskill()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && !isEskill && ECool <= 0 &&!isReloading)
+        {
+            isEskill = true;
 
+            //애니메이션
+            armAnimator.SetBool("isEskill", true);
+
+            // 충돌 적용
+            if (Physics.Raycast(transform.position, transform.forward, out ray, 0.8f))
+            {
+                if (ray.transform.tag == "enemy")
+                {
+                    ray.transform.GetComponent<EnemyStatus>().HP -= PlayerAttackPower * 50;
+
+                    Debug.Log("hit!");
+                    Debug.Log(ray.transform.position);
+                    // 사운드
+                    SoundManager.Instance.PlaySwordSound();
+                }
+            }
+            else
+            {
+                SoundManager.Instance.PlaySwordSound2();
+            }
+
+            ECool = 2.0f / PlayerAttackSpeed;
+            StartCoroutine(E(2.0f / PlayerReloadSpeed));
+        }
+
+    }
+    IEnumerator E(float second)
+    {
+        yield return new WaitForSeconds(second);
+        isEskill = false;
+        armAnimator.SetBool("isEskill", false);
+    }
 }
