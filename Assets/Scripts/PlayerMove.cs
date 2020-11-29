@@ -201,7 +201,7 @@ public class PlayerMove : MonoBehaviour
                 }
             }
 
-            shootingCool = 0.2f / PlayerAttackSpeed;
+            shootingCool = 0.1f / PlayerAttackSpeed;
             leftBulletNum--;
 
             armAnimator.SetBool("isShooting", false);
