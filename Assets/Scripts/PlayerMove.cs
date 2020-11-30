@@ -155,19 +155,18 @@ public class PlayerMove : MonoBehaviour
 
 
         /* 바라보는 방향지정
-            SHIFT스킬 사용시, 스킬 사용방향으로 고정
+            SHIFT스킬 사용시, 구르는 효과로 카메라가 살짝 내려감
         */
         if(isShiftskill==true)
         {
-            gameObject.transform.eulerAngles = new Vector3(AngleY, AngleX, 0.0f);
             camera.transform.position=Vector3.Lerp(transform.position,transform.position-new Vector3(0,0.7f,0),0.5f);
         }
         else{
-            gameObject.transform.eulerAngles = new Vector3(AngleY, AngleX, 0.0f);
-            GameObject.Find("Player_Capsule").transform.LookAt(new Vector3(gameObject.transform.forward.x, 1, gameObject.transform.forward.z));
             camera.transform.position=Vector3.Lerp(camera.transform.position,transform.position,0.5f);
         }
-       
+        GameObject.Find("Player_Capsule").transform.LookAt(new Vector3(gameObject.transform.forward.x, 1, gameObject.transform.forward.z));
+        gameObject.transform.eulerAngles = new Vector3(AngleY, AngleX, 0.0f);
+
     }
 
     /* 일반공격 및 스킬의 쿨타임 시스템 관련 함수
@@ -226,10 +225,9 @@ public class PlayerMove : MonoBehaviour
             if (Physics.Raycast(transform.position, transform.forward, out ray, 100))
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * ray.distance, Color.yellow);
-
                 if(ray.transform.tag == "enemy")
                 {
-                    ray.transform.GetComponent<EnemyStatus>().HP -= PlayerAttackPower * 1;
+                    ray.transform.GetComponentInParent<EnemyStatus>().HP -= PlayerAttackPower * 1;
 
                     Debug.Log("hit!");
                     Debug.Log(ray.transform.position);
@@ -346,7 +344,7 @@ public class PlayerMove : MonoBehaviour
             rigidbody.AddForce(move*25,ForceMode.Impulse);
             
             //무적, 회피시간.
-            StartCoroutine(Shiftskill(0.6f));
+            StartCoroutine(Shiftskill(0.45f));
             StartCoroutine(Not_damage(Shift_no_Damagetime));
         }
         
