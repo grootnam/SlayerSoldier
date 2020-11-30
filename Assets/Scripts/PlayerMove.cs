@@ -19,6 +19,11 @@ public class PlayerMove : MonoBehaviour
     public GameObject camera;
     public GameObject muzzleFlash;
 
+    //for Qskill
+    float QCool;
+    public GameObject prefab_missile;
+    Rigidbody mrigidbody;
+
     //for Eskill
     float ECool;
     bool isEskill;
@@ -70,6 +75,7 @@ public class PlayerMove : MonoBehaviour
         Jump();
         Reload();
         Eskill();
+        Qskill();
         coolTime();
     }
 
@@ -175,6 +181,7 @@ public class PlayerMove : MonoBehaviour
     {
         // 각종 쿨타임 적용
         shootingCool -= Time.deltaTime;
+        QCool -= Time.deltaTime;
         ECool -= Time.deltaTime;
         Shift_temptime -=Time.deltaTime;
 
@@ -182,6 +189,10 @@ public class PlayerMove : MonoBehaviour
         if (shootingCool <=0)
         {
             shootingCool = 0;
+        }
+        if (QCool <= 0)
+        {
+            QCool = 0;
         }
         if (ECool <= 0)
         {
@@ -287,6 +298,35 @@ public class PlayerMove : MonoBehaviour
         isReloading = false;
         leftBulletNum = maxBulletNum;
         armAnimator.SetBool("isReloading", false);
+    }
+
+    /* Q스킬
+   */
+    void Qskill()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && QCool <= 0 && !isReloading)
+        {
+            //발사 소리 
+
+
+            //반동
+            float reboundX = Random.Range(-1.5f, 1.5f) * PlayerGunRebound;
+            float reboundY = Random.Range(1.0f, 5.5f) * PlayerGunRebound;
+            AngleX += reboundX;
+            AngleY -= reboundY;
+            GameObject.Find("Arm").transform.position -= gameObject.transform.forward * 0.01f;
+            StartCoroutine(ReboundRecovery(reboundX, reboundY));
+
+            //발사시 효과
+
+
+            GameObject missile = GameObject.Instantiate(prefab_missile) as GameObject;
+            mrigidbody = missile.GetComponent<Rigidbody>();
+            missile.transform.position = GameObject.Find("Arm").transform.position;
+            missile.transform.LookAt(gameObject.transform.forward);
+            mrigidbody.AddForce(gameObject.transform.forward * 300.0f);
+            QCool = 9.0f / PlayerAttackSpeed;
+        }
     }
 
     /* E스킬

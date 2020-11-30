@@ -6712,7 +6712,7 @@ GameObject:
   - component: {fileID: 530407145}
   m_Layer: 0
   m_Name: BaseWall (3)
-  m_TagString: Untagged
+  m_TagString: map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7106,6 +7106,8 @@ MonoBehaviour:
   camera: {fileID: 1330173246}
   muzzleFlash: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}
+  prefab_missile: {fileID: 3347637676795134162, guid: c3af8d40fb91d4749875f3e460fd7fe8,
+    type: 3}
   ShiftCool: 4
   PlayerHP: 100
   PlayerSpeed: 1
@@ -7324,7 +7326,7 @@ GameObject:
   - component: {fileID: 584259106}
   m_Layer: 0
   m_Name: BaseWall (2)
-  m_TagString: Untagged
+  m_TagString: map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8007,7 +8009,7 @@ GameObject:
   - component: {fileID: 629920435}
   m_Layer: 0
   m_Name: BaseWall
-  m_TagString: Untagged
+  m_TagString: map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16873,7 +16875,7 @@ GameObject:
   - component: {fileID: 1347082996}
   m_Layer: 0
   m_Name: BaseWall (1)
-  m_TagString: Untagged
+  m_TagString: map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
