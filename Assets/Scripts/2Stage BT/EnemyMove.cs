@@ -46,6 +46,11 @@ public class EnemyMove : MonoBehaviour
         if (phase==1 && MonsterHP <= MonsterMaxHP*0.65f)
         {
             phase = 2;
+
+            /*
+             * 대충 맵 크기 100%-->75%로 줄이는 코드
+             */
+
             return true;
         }
 
@@ -56,6 +61,10 @@ public class EnemyMove : MonoBehaviour
         if (phase == 2 && MonsterHP <= MonsterMaxHP * 0.3f)
         {
             phase = 3;
+
+            /*
+             * 대충 맵 크기 75%-->50%로 줄이는 코드
+             */
             return true;
         }
 
@@ -68,6 +77,24 @@ public class EnemyMove : MonoBehaviour
         if (coolTime <= 0)
         {
             coolTime = 4;
+
+            int pattern = Random.Range(1, 3);
+
+            if (pattern == 1)
+            {
+                //패턴A
+            }
+
+            if (pattern == 2)
+            {
+                //패턴B
+            }
+
+            if (pattern == 3)
+            {
+                //패턴C
+            }
+
             return true;
         }
         return false;
@@ -77,6 +104,10 @@ public class EnemyMove : MonoBehaviour
     {
         if (MonsterHP > 0)
         {
+            /*
+             * 대충 몬스터가 플레이어 바라보게 회전하는 내용
+             */
+
             return true;
         }
         return false;
