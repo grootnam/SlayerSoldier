@@ -4035,11 +4035,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 284262158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbfc7b36993da0747a0250444e4da6f7, type: 3}
+  m_Script: {fileID: 11500000, guid: f83736124d2d93c47b352ac887596fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 100
-  HP: 100
+  MonsterMaxHP: 500
+  MonsterHP: 0
+  phase: 0
+  coolTime: 0
+--- !u!114 &284262162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284262158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f16e1827d8c16e940a7b289a0d8d7c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &288257651
 PrefabInstance:
   m_ObjectHideFlags: 0

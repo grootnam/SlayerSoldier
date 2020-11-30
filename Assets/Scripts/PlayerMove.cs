@@ -227,7 +227,7 @@ public class PlayerMove : MonoBehaviour
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * ray.distance, Color.yellow);
                 if(ray.transform.tag == "enemy")
                 {
-                    ray.transform.GetComponentInParent<EnemyStatus>().HP -= PlayerAttackPower * 1;
+                    ray.transform.GetComponentInParent<EnemyMove>().MonsterHP -= PlayerAttackPower * 1;
 
                     Debug.Log("hit!");
                     Debug.Log(ray.transform.position);
@@ -306,7 +306,7 @@ public class PlayerMove : MonoBehaviour
             {
                 if (ray.transform.tag == "enemy")
                 {
-                    ray.transform.GetComponent<EnemyStatus>().HP -= PlayerAttackPower * 50;
+                    ray.transform.GetComponent<EnemyMove>().MonsterHP -= PlayerAttackPower * 50;
 
                     Debug.Log("hit!");
                     Debug.Log(ray.transform.position);
