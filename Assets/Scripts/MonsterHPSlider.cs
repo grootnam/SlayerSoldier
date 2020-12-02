@@ -30,7 +30,7 @@ public class MonsterHPSlider : MonoBehaviour
 
     private void UpdateDoorHP()
     {
-        //Door의 체력을 계속해서 업데이트
+        //체력을 계속해서 업데이트
         CurrentHP = Enemy.GetComponent<EnemyStatus>().HP;
         HPSlider.value = CurrentHP;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI2 : MonoBehaviour
 {
     private Sequence root = new Sequence();
     private Selector selector = new Selector();
@@ -18,14 +18,14 @@ public class EnemyAI : MonoBehaviour
     private MonsterRotation m_MonsterRotation = new MonsterRotation();
 
 
-    private EnemyMove m_Enemy;
+    private EnemyMove2 m_Enemy;
     private IEnumerator behaviorProcess;
 
 
     void Start()
     {
         Debug.Log("Start Tree");
-        m_Enemy = gameObject.GetComponent<EnemyMove>();
+        m_Enemy = gameObject.GetComponent<EnemyMove2>();
         root.AddChild(selector);
         selector.AddChild(seqDead);
         selector.AddChild(seqMovingAttack);
@@ -59,7 +59,7 @@ public class EnemyAI : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
         }
-        Destroy(gameObject, 0.0f);
+        //Destroy(gameObject, 0.0f);
         Debug.Log("behavior process exit");
     }
 

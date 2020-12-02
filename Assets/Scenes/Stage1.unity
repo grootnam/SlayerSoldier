@@ -15960,6 +15960,8 @@ MonoBehaviour:
   camera: {fileID: 747474029}
   muzzleFlash: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}
+  prefab_missile: {fileID: 3347637676795134162, guid: c3af8d40fb91d4749875f3e460fd7fe8,
+    type: 3}
   ShiftCool: 4
   PlayerHP: 100
   PlayerSpeed: 1
@@ -20824,7 +20826,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1699547547}
   - component: {fileID: 1699547546}
-  - component: {fileID: 1699547545}
+  - component: {fileID: 1699547548}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: enemy
@@ -20832,20 +20834,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1699547545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1699547544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbfc7b36993da0747a0250444e4da6f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxHP: 1000
-  HP: 1000
 --- !u!136 &1699547546
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -20875,6 +20863,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1699547548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699547544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfc7b36993da0747a0250444e4da6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHP: 1000
+  HP: 0
 --- !u!4 &1702444620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5239272197777735519, guid: e348e7143b6247b488737e4be26fb038,

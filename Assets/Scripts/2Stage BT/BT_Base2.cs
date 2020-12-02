@@ -59,11 +59,11 @@ public class Sequence : CompositeNode
 
 public class IsDead : Node
 {
-    public EnemyMove Enemy
+    public EnemyMove2 Enemy
     {
         set { _Enemy = value; }
     }
-    private EnemyMove _Enemy;
+    private EnemyMove2 _Enemy;
     public override bool Invoke()
     {
         return _Enemy.IsDead();
@@ -72,11 +72,11 @@ public class IsDead : Node
 
 public class Phase1to2 : Node
 {
-    public EnemyMove Enemy
+    public EnemyMove2 Enemy
     {
         set { _Enemy = value; }
     }
-    private EnemyMove _Enemy;
+    private EnemyMove2 _Enemy;
     public override bool Invoke()
     {
         return _Enemy.Phase1to2();
@@ -85,11 +85,11 @@ public class Phase1to2 : Node
 }
 public class Phase2to3 : Node
 {
-    public EnemyMove Enemy
+    public EnemyMove2 Enemy
     {
         set { _Enemy = value; }
     }
-    private EnemyMove _Enemy;
+    private EnemyMove2 _Enemy;
     public override bool Invoke()
     {
         return _Enemy.Phase2to3();
@@ -99,23 +99,24 @@ public class Phase2to3 : Node
 
 public class IsCooltime : Node
 {
-    public EnemyMove Enemy
+    public EnemyMove2 Enemy
     {
         set { _Enemy = value; }
     }
-    private EnemyMove _Enemy;
+    private EnemyMove2 _Enemy;
     public override bool Invoke()
     {
         return _Enemy.IsCooltime();
     }
 }
+
 public class MonsterRotation : Node
 {
-    public EnemyMove Enemy
+    public EnemyMove2 Enemy
     {
         set { _Enemy = value; }
     }
-    private EnemyMove _Enemy;
+    private EnemyMove2 _Enemy;
     public override bool Invoke()
     {
         return _Enemy.MonsterRotation();

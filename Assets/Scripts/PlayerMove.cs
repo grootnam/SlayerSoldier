@@ -56,7 +56,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        // 마우스 커서 숨김 lc ghkaus qkRdmfh dksskrkrp
+        // 마우스 커서 숨김 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -73,19 +73,20 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         Jump();
+        MouseMove();
         Reload();
         Eskill();
         Qskill();
+        Shiftskill();
         coolTime();
+        Shoot();
     }
 
     private void FixedUpdate()
     {
         WASD();
-        MouseMove();
-        Shiftskill();
-        Shoot();
     }
+
     private void OnCollisionExit(Collision collision)
     {
         if(collision.transform.tag == "ground")
@@ -149,8 +150,8 @@ public class PlayerMove : MonoBehaviour
      */
     void MouseMove()
     {
-        AngleX += Input.GetAxis("Mouse X") * 3f;
-        AngleY -= Input.GetAxis("Mouse Y") * 3f;
+        AngleX += Input.GetAxis("Mouse X");
+        AngleY -= Input.GetAxis("Mouse Y");
 
         // 상하 각도 제한
         if (AngleY >= 90)
@@ -238,7 +239,7 @@ public class PlayerMove : MonoBehaviour
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * ray.distance, Color.yellow);
                 if(ray.transform.tag == "enemy")
                 {
-                    ray.transform.GetComponentInParent<EnemyMove>().MonsterHP -= PlayerAttackPower * 1;
+                    ray.transform.GetComponentInParent<EnemyStatus>().HP -= PlayerAttackPower * 1;
 
                     Debug.Log("hit!");
                     Debug.Log(ray.transform.position);
@@ -264,7 +265,7 @@ public class PlayerMove : MonoBehaviour
     {
         for (int i = 0; i < 10; i++)
         {
-            yield return new WaitForSeconds(0.0125f*0.1f);
+            yield return new WaitForSeconds(0.00125f);
 
             AngleX -= reboundX * 0.35f * PlayerGunReboundRecover * 0.1f;
             AngleY += reboundY * 0.35f * PlayerGunReboundRecover * 0.1f;
@@ -346,7 +347,7 @@ public class PlayerMove : MonoBehaviour
             {
                 if (ray.transform.tag == "enemy")
                 {
-                    ray.transform.GetComponent<EnemyMove>().MonsterHP -= PlayerAttackPower * 50;
+                    ray.transform.GetComponent<EnemyStatus>().HP -= PlayerAttackPower * 50;
 
                     Debug.Log("hit!");
                     Debug.Log(ray.transform.position);
@@ -395,6 +396,7 @@ public class PlayerMove : MonoBehaviour
         isShiftskill=false;
         rigidbody.velocity=Vector3.zero;
     }
+
     //무적시간
     IEnumerator Not_damage(float second)
     {
