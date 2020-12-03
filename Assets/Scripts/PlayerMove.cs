@@ -28,7 +28,7 @@ public class PlayerMove : MonoBehaviour
     float ECool;
     bool isEskill;
 
-    // 시프트 스킬 (? 왜다들 영어주석이지?)
+    // 시프트 스킬 (? 왜다들 영어주석이지?) ㅋㅋㅋㅋ성재가시작했음
     bool isShiftskill;
     public float ShiftCool=4f;
 
@@ -319,7 +319,7 @@ public class PlayerMove : MonoBehaviour
    */
     void Qskill()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && QCool <= 0 && !isReloading)
+        if (Input.GetKeyDown(KeyCode.Q) && QCool <= 0 && !isReloading&& !isEskill)
         {
             //발사 소리 
 
