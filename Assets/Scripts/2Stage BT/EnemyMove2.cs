@@ -15,9 +15,10 @@ public class EnemyMove2 : MonoBehaviour
     public GameObject player;       // 플레이어의 좌표를 받아오기 위해 연동
 
     public bool patternOn;                 // 패턴이 진행중이라면 true, 아니면 false
-    public GameObject warning_B;    // 패턴B의 경고위치를 표기하는 라이트
 
-    public GameObject breath;       // 패턴B의 브레스 이펙트
+
+    public GameObject B_warning;    // 패턴B의 경고위치를 표기하는 라이트
+    public GameObject prefab_B_flame;      // 패턴B의 이펙트 및 트리거
 
     void Start()
     {
@@ -88,7 +89,7 @@ public class EnemyMove2 : MonoBehaviour
         }
 
         // 패턴 진행 중
-        else
+        else if (patternOn)
         {
             return true;
         }
@@ -140,12 +141,16 @@ public class EnemyMove2 : MonoBehaviour
     {
         Vector3 target = player.transform.position;
         target.y = 1;
-        warning_B.transform.LookAt(target);
-        warning_B.SetActive(true);
+        B_warning.transform.LookAt(target);
+        B_warning.SetActive(true);
 
         yield return new WaitForSeconds(2f);
 
-        warning_B.SetActive(false);
+        GameObject B_flame = GameObject.Instantiate(prefab_B_flame) as GameObject; 
+        B_flame.transform.position = new Vector3(0, 0, 0);
+        B_flame.transform.LookAt(target);
+
+        B_warning.SetActive(false);
         patternOn = false;
     }
 

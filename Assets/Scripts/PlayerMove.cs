@@ -103,6 +103,20 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "enemySkill")
+        {
+            PlayerHP -= other.GetComponentInParent<EnemySkill>().damage;
+            Debug.Log("Hit!");
+        }
+    }
+
+
+
+
+
+
     /* 플레이어 움직임에 관한 코드
      */
     void WASD()
@@ -372,6 +386,9 @@ public class PlayerMove : MonoBehaviour
         armAnimator.SetBool("isEskill", false);
     }
 
+    /*
+     * Shift 스킬
+     */
     void Shiftskill()
     {
         //모든 스킬과 점프 안할때 가능.
