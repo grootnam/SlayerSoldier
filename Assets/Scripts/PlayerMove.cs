@@ -108,9 +108,24 @@ public class PlayerMove : MonoBehaviour
         if (other.tag == "enemySkill")
         {
             PlayerHP -= other.GetComponentInParent<EnemySkill>().damage;
+
             Debug.Log("Hit!");
         }
     }
+
+    private void OnCollisionEnter(Collision other)
+    {
+
+        if (other.gameObject.tag == "BigBall")
+        {
+            PlayerHP -= 15;
+            Destroy(GetComponent<EnemyMove1>().BigBall);
+
+            Debug.Log("HitBigBall!");
+        }
+
+    }
+
 
 
 
