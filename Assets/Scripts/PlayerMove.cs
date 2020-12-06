@@ -9,7 +9,7 @@ public class PlayerMove : MonoBehaviour
     
     // for act
     Vector3 move;
-    bool canJump;
+    public bool canJump;
     bool isReloading;
     Rigidbody rigidbody;
     // for shooting
@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     bool isEskill;
 
     // 시프트 스킬 (? 왜다들 영어주석이지?) ㅋㅋㅋㅋ성재가시작했음
-    bool isShiftskill;
+    public bool isShiftskill;
     public float ShiftCool=4f;
 
     [System.NonSerialized]

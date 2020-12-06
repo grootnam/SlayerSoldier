@@ -22,7 +22,17 @@ public class EnemyMove1 : MonoBehaviour
     public GameObject BigBall; //패턴B 구체프리팹
     public GameObject WarningB; // 패턴B의 경고위치를 표기하는 막대
 
+    public GameObject WarningC; //패턴C의 경고위치를 표기하는 라이트
+    public Light Lt;
+    public bool ShakeOn;
+
     Rigidbody m_rigidbody;
+
+    [SerializeField] float m_force = 0f;
+    [SerializeField] Vector3 m_offset = Vector3.zero;
+
+    Quaternion m_originRot;
+    public GameObject Cam;
 
     void Start()
     {
@@ -32,12 +42,18 @@ public class EnemyMove1 : MonoBehaviour
 
         MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
         MonsterMaxHP = gameObject.GetComponent<EnemyStatus>().MaxHP;
+
+        m_originRot = Cam.transform.rotation;
     }
 
     void Update()
     {
         nTime += Time.deltaTime;
-        coolTime -= Time.deltaTime;
+        if(!patternOn)
+        {
+            coolTime -= Time.deltaTime;
+        }
+        //coolTime -= Time.deltaTime;
 
         MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
     }
@@ -80,7 +96,7 @@ public class EnemyMove1 : MonoBehaviour
     // 쿨타임마다 무작위 패턴 사용
     public bool IsCooltime()
     {
-        if (coolTime <= 0)
+        if (coolTime <= 0&& !patternOn)
         {
             coolTime = 4;
 
@@ -113,13 +129,13 @@ public class EnemyMove1 : MonoBehaviour
     {
         Vector3 target = player.transform.position;
         WarningA.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f); 
+        WarningA.SetActive(false);
 
         GameObject flame = GameObject.Instantiate(prefab_flame) as GameObject;
         flame.transform.position = new Vector3(0, 0, 0);
         flame.transform.LookAt(target);
-
-        WarningA.SetActive(false);
+       
         patternOn = false;
     }
 
@@ -136,6 +152,7 @@ public class EnemyMove1 : MonoBehaviour
             //Debug.Log(warningpos[i]);
         }
         yield return new WaitForSeconds(3f);
+        
 
         for(int i=0;i<8;i++)
         {
@@ -145,7 +162,6 @@ public class EnemyMove1 : MonoBehaviour
             MultiBall.transform.LookAt(warningpos[i]);
             m_rigidbody.AddForce(warningpos[i] * 100f);
         }
-
         
         WarningB.SetActive(false);
         patternOn = false;
@@ -153,9 +169,62 @@ public class EnemyMove1 : MonoBehaviour
 
     IEnumerator PatternC()
     {
+        WarningC.SetActive(true);
+        WarningC.GetComponent<Light>().range = 50f;
+        while (WarningC.GetComponent<Light>().range >= 20f && ShakeOn == false)
+        {
+            WarningC.GetComponent<Light>().range -= 0.5f;
+            yield return new WaitForSeconds(0.05f);
+        }
+        WarningC.SetActive(false);
+        //Shake();
+        if (WarningC.GetComponent<Light>().range<25f)
+        {
+            StartCoroutine(Cameramove());
+            
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(CameramoveReset());
+        }
 
-        yield return new WaitForSeconds(2f);
+        //if (!GetComponent<PlayerMove>().isShiftskill && !GetComponent<PlayerMove>().canJump)
+        //    {
+        //        GetComponent<PlayerMove>().PlayerHP -= 70;
+        //    }
         patternOn = false;
     }
 
+    //void Shake()
+    //{
+    //    StartCoroutine(Cameramove());
+    //}
+    IEnumerator Cameramove()
+    {
+        ShakeOn = true;
+        Vector3 t_originEuler = Cam.transform.eulerAngles;
+        while (true)
+        {
+            float t_rotX = Random.Range(-m_offset.x, m_offset.x);
+            float t_rotY = Random.Range(-m_offset.y, m_offset.y);
+            float t_rotZ = Random.Range(-m_offset.z, m_offset.z);
+            Vector3 t_randomRot = t_originEuler + new Vector3(t_rotX, t_rotY, t_rotZ);
+            Quaternion t_rot = Quaternion.Euler(t_randomRot);
+            while (Quaternion.Angle(transform.rotation, t_rot) > 0.1f)
+            {
+                Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, t_rot, m_force * Time.deltaTime);
+                yield return null;
+            }
+
+            yield return null;
+        }
+    }
+
+    IEnumerator CameramoveReset()
+    {
+        ShakeOn = false;
+        while (Quaternion.Angle(Cam.transform.rotation, m_originRot) > 0f)
+        {
+            Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, m_originRot, m_force * Time.deltaTime);
+            yield return null;
+        }
+    }
 }
