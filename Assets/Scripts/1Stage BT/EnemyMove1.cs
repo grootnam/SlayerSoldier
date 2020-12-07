@@ -21,6 +21,7 @@ public class EnemyMove1 : MonoBehaviour
     public GameObject prefab_flame;      // 패턴A 이펙트 및 트리거
     public GameObject BigBall; //패턴B 구체프리팹
     public GameObject WarningB; // 패턴B의 경고위치를 표기하는 막대
+    public GameObject stick;
 
     public GameObject WarningC; //패턴C의 경고위치를 표기하는 라이트
     public Light Lt;
@@ -147,22 +148,21 @@ public class EnemyMove1 : MonoBehaviour
         {
             GameObject MultiWarning = GameObject.Instantiate(WarningB) as GameObject;
             MultiWarning.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360),0);
-            warningpos[i] = MultiWarning.transform.forward;
-            warningpos[i].y = 0;
-            //Debug.Log(warningpos[i]);
+            warningpos[i] = WarningB.transform.forward;
         }
-        yield return new WaitForSeconds(3f);
-        
+        yield return new WaitForSeconds(2f);
+        //WarningB.SetActive(false);
 
-        for(int i=0;i<8;i++)
+
+        for (int i=0;i<8;i++)
         {
             GameObject MultiBall = GameObject.Instantiate(BigBall) as GameObject;
             m_rigidbody = MultiBall.GetComponent<Rigidbody>();
-            MultiBall.transform.position = new Vector3(0, 0, 0);
+            MultiBall.transform.position = new Vector3(0, 3, 0);
             MultiBall.transform.LookAt(warningpos[i]);
-            m_rigidbody.AddForce(warningpos[i] * 100f);
+            m_rigidbody.AddForce(warningpos[i] * 50f);
+
         }
-        
         WarningB.SetActive(false);
         patternOn = false;
     }

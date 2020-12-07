@@ -21137,7 +21137,9 @@ MonoBehaviour:
   prefab_flame: {fileID: 6288702203121830084, guid: 91abcf0add8916845a4b5e36e2de9725,
     type: 3}
   BigBall: {fileID: 881354819729650159, guid: 595e19e0e788fa74aafe549703d72d70, type: 3}
-  WarningB: {fileID: 32259809}
+  WarningB: {fileID: 6202352105469663157, guid: 4b412764011dae24bb00a986d5fddf9e,
+    type: 3}
+  stick: {fileID: 0}
   WarningC: {fileID: 169957119}
   Lt: {fileID: 169957120}
   ShakeOn: 0
@@ -27182,7 +27184,7 @@ PrefabInstance:
     - target: {fileID: 8320200312376964455, guid: 6b5bb89a39171274b8a0c0b409e8d0a4,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b5bb89a39171274b8a0c0b409e8d0a4, type: 3}
