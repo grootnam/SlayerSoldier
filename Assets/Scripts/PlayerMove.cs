@@ -348,13 +348,11 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(ReboundRecovery(reboundX, reboundY));
 
             //발사시 효과
-
-
             GameObject missile = GameObject.Instantiate(prefab_missile) as GameObject;
             mrigidbody = missile.GetComponent<Rigidbody>();
             missile.transform.position = GameObject.Find("Arm").transform.position;
             missile.transform.LookAt(gameObject.transform.forward);
-            mrigidbody.AddForce(gameObject.transform.forward * 300.0f);
+            mrigidbody.AddForce(gameObject.transform.forward * 3000.0f);
             QCool = 9.0f / PlayerAttackSpeed;
         }
     }

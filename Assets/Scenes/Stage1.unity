@@ -16182,7 +16182,7 @@ MonoBehaviour:
   camera: {fileID: 747474029}
   muzzleFlash: {fileID: 1743301284569550, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}
-  prefab_missile: {fileID: 3347637676795134162, guid: c3af8d40fb91d4749875f3e460fd7fe8,
+  prefab_missile: {fileID: 7588194528819300771, guid: bc14f729ce49a12499c58fc997d1f459,
     type: 3}
   isShiftskill: 0
   ShiftCool: 4
