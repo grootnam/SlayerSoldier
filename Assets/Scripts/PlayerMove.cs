@@ -105,17 +105,17 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "enemySkill")
+        //적 스킬을 맞았을때와 Shift의 무적시간이 아닐때
+        if (other.tag == "enemySkill"&&isNoDamagetime==false)
         {
             PlayerHP -= other.GetComponentInParent<EnemySkill>().damage;
 
-            Debug.Log("Hit!");
+            Debug.Log("Hit! :"+other.GetComponentInParent<EnemySkill>().damage);
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
-
         if (other.gameObject.tag == "BigBall")
         {
             PlayerHP -= 15;

@@ -13,6 +13,7 @@ TagManager:
   - enemySkill
   - BigBall
   - warning
+  - Map
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - map
   - 
   - 
   - 

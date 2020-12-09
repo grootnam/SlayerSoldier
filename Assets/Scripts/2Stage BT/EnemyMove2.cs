@@ -9,17 +9,18 @@ public class EnemyMove2 : MonoBehaviour
     public int phase;
     public float coolTime;
 
-    public float MonsterHP;         // EnemyStatus ½ºÅ©¸³Æ®¿¡¼­ °¡Á®¿È
-    public float MonsterMaxHP;      // EnemyStatus ½ºÅ©¸³Æ®¿¡¼­ °¡Á®¿È
+    public float MonsterHP;         // EnemyStatus ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float MonsterMaxHP;      // EnemyStatus ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public int Pa_A_SpearPower=50;
+    public GameObject player;       // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ş¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    public GameObject player;       // ÇÃ·¹ÀÌ¾îÀÇ ÁÂÇ¥¸¦ ¹Ş¾Æ¿À±â À§ÇØ ¿¬µ¿
-
-    public bool patternOn;                 // ÆĞÅÏÀÌ ÁøÇàÁßÀÌ¶ó¸é true, ¾Æ´Ï¸é false
+    public bool patternOn;                 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ true, ï¿½Æ´Ï¸ï¿½ false
 
 
-    public GameObject B_warning;    // ÆĞÅÏBÀÇ °æ°íÀ§Ä¡¸¦ Ç¥±âÇÏ´Â ¶óÀÌÆ®
-    public GameObject prefab_B_flame;      // ÆĞÅÏBÀÇ ÀÌÆåÆ® ¹× Æ®¸®°Å
-
+    public GameObject B_warning;    // ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+    public GameObject prefab_B_flame;      // ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½
+    public GameObject prefab_A_Object;
+    public GameObject PatternC_range;
     void Start()
     {
         nTime = 0;
@@ -45,6 +46,7 @@ public class EnemyMove2 : MonoBehaviour
     {
         if (MonsterHP <= 0)
         {
+            gameObject.GetComponent<Animator>().SetBool("Dead", true);
             return false;
         }
         return true;
@@ -75,7 +77,7 @@ public class EnemyMove2 : MonoBehaviour
         return false;
     }
 
-    // Ä³¸¯ÅÍ¸¦ ¹Ù¶óº»´Ù.
+    // Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ù¶óº»´ï¿½.
     public bool MonsterRotation()
     {
         if (!patternOn)
@@ -88,7 +90,7 @@ public class EnemyMove2 : MonoBehaviour
             return true;
         }
 
-        // ÆĞÅÏ ÁøÇà Áß
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         else if (patternOn)
         {
             return true;
@@ -98,14 +100,14 @@ public class EnemyMove2 : MonoBehaviour
     }
 
 
-    // ÄğÅ¸ÀÓ¸¶´Ù ¹«ÀÛÀ§ ÆĞÅÏ »ç¿ë
+    // ï¿½ï¿½Å¸ï¿½Ó¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     public bool IsCooltime()
     {
-        if (coolTime <= 0)
+        if (coolTime <= 0&&patternOn==false)
         {
             coolTime = 4;
 
-            int pattern = Random.Range(1, 3);
+            int pattern = Random.Range(1, 4); //(1-3)ë²”ìœ„ ëœë¤ ìˆ˜
             Debug.Log("pattern = " + pattern);
 
             patternOn = true;
@@ -132,8 +134,44 @@ public class EnemyMove2 : MonoBehaviour
 
     IEnumerator PatternA()
     {
+        //íˆ¬ì‚¬ì²´ì˜ ê°œìˆ˜ (3-5 ì‚¬ì´ ëœë¤)
+        int count=Random.Range(3, 6);
+        List<GameObject> Spearlist = new List<GameObject>();
+        for(int i=1;i<=count;i++)
+        {
+            //íˆ¬ì‚¬ì²´ ì³ë‹¤ë³´ê³ ìˆê¸°
+            Vector3 target = player.transform.position;
+            target.y = gameObject.transform.position.y;
+            gameObject.transform.LookAt(target);
 
-        yield return new WaitForSeconds(2f);
+            //ì°½ ìƒì„±.
+            GameObject Spear=Instantiate(prefab_A_Object);
+            Spear.transform.parent=gameObject.transform;
+            if(i%2==0)
+                Spear.transform.localPosition=new Vector3(0.3f*-(Mathf.CeilToInt((float)i/2f)),1,0);
+            else
+                Spear.transform.localPosition=new Vector3(0.3f*Mathf.CeilToInt((float)i/2f),1,0);
+            
+            Spearlist.Add(Spear);
+            yield return new WaitForSeconds(1f);
+        }
+
+        for(int i=0;i<count;i++)
+        {
+            //íˆ¬ì‚¬ì²´ ì³ë‹¤ë³´ê³ ìˆê¸°
+            Vector3 target = player.transform.position;
+            target.y = gameObject.transform.position.y;
+            gameObject.transform.LookAt(target);
+
+            //ì°½ ë‚´ë ¤ì£¼ê³  ë°œì‚¬
+            Spearlist[i].transform.LookAt(player.transform.position);
+            Vector3 dir=player.transform.position-Spearlist[i].transform.position;
+            dir.Normalize();
+            Spearlist[i].transform.eulerAngles=Spearlist[i].transform.eulerAngles+new Vector3(90,0,0);
+            Spearlist[i].GetComponent<Rigidbody>().AddForce(dir*Pa_A_SpearPower,ForceMode.Impulse);
+            yield return new WaitForSeconds(0.5f);
+        }
+        yield return new WaitForSeconds(5f);
         patternOn = false;
     }
 
@@ -156,18 +194,34 @@ public class EnemyMove2 : MonoBehaviour
 
     IEnumerator PatternC()
     {
+        for(int i=0;i<70;i++)
+        {
+            Vector3 dir=gameObject.transform.position-player.transform.position;
+            dir.y=0;
+            dir.Normalize();
+            player.GetComponent<Rigidbody>().AddForce(dir*1.5f,ForceMode.Impulse);
+            yield return new WaitForSeconds(0.1f);
+        }
+        //ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
+        gameObject.GetComponent<Animator>().SetBool("PatternC",true);
+        yield return new WaitForSeconds(0.1f);
+        gameObject.GetComponent<Animator>().SetBool("PatternC",false);
 
+        //ë°ë¯¸ì§€
+        PatternC_range.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        PatternC_range.SetActive(false);
         yield return new WaitForSeconds(2f);
         patternOn = false;
     }
 
 
-    //ÆĞÅÏD
+    //ï¿½ï¿½ï¿½ï¿½D
     IEnumerator ReduceMapSize(int phase)
     {
-        // ½ºÄÌ·¹Åæ ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı
-        // ½ºÄÌ·¹Åæ ¼Ò¸®(Æ÷È¿) Àç»ı
-        // ¸Ê ÁÙ¾îµå´Â ¼Ò¸® Àç»ı
+        // ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½(ï¿½ï¿½È¿) ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ ï¿½Ù¾ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
 
         Vector3 north = new Vector3(0, 0, -1);
         Vector3 east = new Vector3(-1, 0, 0);
