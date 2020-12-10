@@ -6,6 +6,7 @@ public class Missile : MonoBehaviour
 {
     GameObject Enemy;
     GameObject Player;
+    public GameObject effect;
     void Start()
     {
         Enemy = GameObject.Find("Enemy");
@@ -23,13 +24,20 @@ public class Missile : MonoBehaviour
             // 충돌 사운드
 
             // 충돌 효과
+            GameObject flame = GameObject.Instantiate(effect) as GameObject;
+            flame.transform.position = gameObject.transform.position;
 
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.tag == "ground" || collision.gameObject.tag == "map")
+        if (collision.gameObject.tag == "ground" || collision.gameObject.tag == "map" || collision.gameObject.tag == "BigBall")
         {
             Debug.Log("missile & map 충돌");
+            // 충돌 사운드
+
+            // 충돌 효과
+            GameObject flame = GameObject.Instantiate(effect) as GameObject;
+            flame.transform.position = gameObject.transform.position;
             Destroy(gameObject);
         }
     }

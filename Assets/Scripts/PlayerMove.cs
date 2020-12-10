@@ -329,7 +329,6 @@ public class PlayerMove : MonoBehaviour
         {
             //발사 소리 
 
-
             //반동
             float reboundX = Random.Range(-1.5f, 1.5f) * PlayerGunRebound;
             float reboundY = Random.Range(1.0f, 5.5f) * PlayerGunRebound;
@@ -338,13 +337,14 @@ public class PlayerMove : MonoBehaviour
             GameObject.Find("Arm").transform.position -= gameObject.transform.forward * 0.01f;
             StartCoroutine(ReboundRecovery(reboundX, reboundY));
 
-            //발사시 효과
+            //발사
             GameObject missile = GameObject.Instantiate(prefab_missile) as GameObject;
             mrigidbody = missile.GetComponent<Rigidbody>();
             missile.transform.position = GameObject.Find("Arm").transform.position;
-            missile.transform.LookAt(gameObject.transform.forward);
-            mrigidbody.AddForce(gameObject.transform.forward * 3000.0f);
-            QCool = 9.0f / PlayerAttackSpeed;
+            //missile.transform.rotation = Quaternion.LookRotation(gameObject.transform.rotation * Vector3.forward);
+            missile.transform.forward = gameObject.transform.forward;
+            mrigidbody.AddForce(gameObject.transform.forward * 2000.0f);
+            //QCool = 9.0f / PlayerAttackSpeed;
         }
     }
 

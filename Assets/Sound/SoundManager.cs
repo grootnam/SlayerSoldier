@@ -45,7 +45,6 @@ public class SoundManager : MonoBehaviour
     {
         MyAudio.PlayOneShot(JumpSound);
     }
-
     public void PlaySwordSound()
     {
         MyAudio.PlayOneShot(SwordSound);

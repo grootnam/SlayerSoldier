@@ -88,7 +88,7 @@ public class EnemyMove1 : MonoBehaviour
     // 쿨타임마다 무작위 패턴 사용
     public bool IsCooltime()
     {
-        if (coolTime <= 0 && !patternOn)
+        if (coolTime <= 0 && patternOn==false)
         {
             coolTime = 4;
 
