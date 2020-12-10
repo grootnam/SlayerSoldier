@@ -19,13 +19,15 @@ public class UImanager : MonoBehaviour
     public Text Shiftskillcool;
     GameObject Player;
 
-    public GameObject ResultPopup;
+    public GameObject ResultPopupClear;
+    public GameObject ResultPopupOver;
 
     bool IsPause;
 
     void Start()
     {
-        ResultPopup.SetActive(false);
+        ResultPopupClear.SetActive(false);
+        ResultPopupOver.SetActive(false);
         IsPause = false;
     }
 
@@ -88,6 +90,13 @@ public class UImanager : MonoBehaviour
     public void stageClear()
     {
         isStageOver = true;
-        ResultPopup.SetActive(true);
+        Time.timeScale = 0;
+        ResultPopupClear.SetActive(true);
+    }
+    public void stageOver()
+    {
+        isStageOver = true;
+        Time.timeScale = 0;
+        ResultPopupOver.SetActive(true);
     }
 }

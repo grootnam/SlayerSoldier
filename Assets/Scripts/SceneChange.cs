@@ -30,7 +30,10 @@ public class SceneChange : MonoBehaviour
     {
         SceneManager.LoadScene("SelectStage");
     }
-
+    public void GameOver1()
+    {
+        SceneManager.LoadScene("GameOver1");
+    }
     public void GoToTestSampleScene1()
     {
         SceneManager.LoadScene("SampleScene1");

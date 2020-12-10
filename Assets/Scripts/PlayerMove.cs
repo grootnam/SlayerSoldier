@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
     // for mouse move
     float AngleX, AngleY;
-    
+
     // for act
     Vector3 move;
     public bool canJump;
@@ -30,12 +32,12 @@ public class PlayerMove : MonoBehaviour
 
     // 시프트 스킬 (? 왜다들 영어주석이지?) ㅋㅋㅋㅋ성재가시작했음
     public bool isShiftskill;
-    public float ShiftCool=4f;
+    public float ShiftCool = 4f;
 
     [System.NonSerialized]
     public float Shift_temptime;
 
-    
+
     public bool isNoDamagetime;
     // for animation
     Animator armAnimator;
@@ -62,11 +64,11 @@ public class PlayerMove : MonoBehaviour
 
         armAnimator = GameObject.Find("Arm").GetComponent<Animator>();
         rigidbody = gameObject.GetComponent<Rigidbody>();
-        Shift_temptime=0f;
+        Shift_temptime = 0f;
         isReloading = false;
         isEskill = false;
-        isShiftskill=false;
-        isNoDamagetime=false;
+        isShiftskill = false;
+        isNoDamagetime = false;
         canJump = true;
     }
 
@@ -80,6 +82,11 @@ public class PlayerMove : MonoBehaviour
         Shiftskill();
         coolTime();
         Shoot();
+
+        if (PlayerHP <= 0 && !FindObjectOfType<UImanager>().isStageOver)
+        {
+            FindObjectOfType<UImanager>().stageOver();
+        }
     }
 
     private void FixedUpdate()
@@ -89,7 +96,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if(collision.transform.tag == "ground")
+        if (collision.transform.tag == "ground")
         {
             canJump = false;
         }
@@ -106,11 +113,11 @@ public class PlayerMove : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //적 스킬을 맞았을때와 Shift의 무적시간이 아닐때
-        if (other.tag == "enemySkill"&&isNoDamagetime==false)
+        if (other.tag == "enemySkill" && isNoDamagetime == false)
         {
             PlayerHP -= other.GetComponentInParent<EnemySkill>().damage;
 
-            Debug.Log("Hit! :"+other.GetComponentInParent<EnemySkill>().damage);
+            Debug.Log("Hit! :" + other.GetComponentInParent<EnemySkill>().damage);
         }
 
         if (other.gameObject.tag == "BigBall")
@@ -150,7 +157,7 @@ public class PlayerMove : MonoBehaviour
         move.Normalize();
 
         gameObject.transform.position += move * 0.25f * PlayerSpeed;
-        
+
     }
 
     /* 점프
@@ -183,12 +190,12 @@ public class PlayerMove : MonoBehaviour
         /* 바라보는 방향지정
             SHIFT스킬 사용시, 구르는 효과로 카메라가 살짝 내려감
         */
-        if(isShiftskill==true)
+        if (isShiftskill == true)
         {
-            camera.transform.position=Vector3.Lerp(transform.position,transform.position-new Vector3(0,0.7f,0),0.5f);
+            camera.transform.position = Vector3.Lerp(transform.position, transform.position - new Vector3(0, 0.7f, 0), 0.5f);
         }
-        else{
-            camera.transform.position=Vector3.Lerp(camera.transform.position,transform.position,0.5f);
+        else {
+            camera.transform.position = Vector3.Lerp(camera.transform.position, transform.position, 0.5f);
         }
         GameObject.Find("Player_Capsule").transform.LookAt(new Vector3(gameObject.transform.forward.x, 1, gameObject.transform.forward.z));
         gameObject.transform.eulerAngles = new Vector3(AngleY, AngleX, 0.0f);
@@ -203,10 +210,10 @@ public class PlayerMove : MonoBehaviour
         shootingCool -= Time.deltaTime;
         QCool -= Time.deltaTime;
         ECool -= Time.deltaTime;
-        Shift_temptime -=Time.deltaTime;
+        Shift_temptime -= Time.deltaTime;
 
         // 0 이하인 경우 0으로 만듦
-        if (shootingCool <=0)
+        if (shootingCool <= 0)
         {
             shootingCool = 0;
         }
@@ -218,9 +225,9 @@ public class PlayerMove : MonoBehaviour
         {
             ECool = 0;
         }
-        if(Shift_temptime<=0)
+        if (Shift_temptime <= 0)
         {
-            Shift_temptime=0;
+            Shift_temptime = 0;
         }
     }
 
@@ -228,7 +235,7 @@ public class PlayerMove : MonoBehaviour
      */
     void Shoot()
     {
-        if(Input.GetMouseButton(0) && leftBulletNum > 0 && !isReloading&&!isShiftskill && shootingCool <= 0 && !isEskill)
+        if (Input.GetMouseButton(0) && leftBulletNum > 0 && !isReloading && !isShiftskill && shootingCool <= 0 && !isEskill)
         {
             // 슈팅 관련 연출
             // 애니메이션
@@ -236,7 +243,7 @@ public class PlayerMove : MonoBehaviour
 
             // 총구 화염
             GameObject muzzle_Flash = Instantiate(muzzleFlash);
-            muzzle_Flash.transform.position = gameObject.transform.position + 1.1f*gameObject.transform.forward + 0.35f * gameObject.transform.right - 0.17f*gameObject.transform.up;
+            muzzle_Flash.transform.position = gameObject.transform.position + 1.1f * gameObject.transform.forward + 0.35f * gameObject.transform.right - 0.17f * gameObject.transform.up;
             muzzle_Flash.transform.parent = gameObject.transform;
             muzzle_Flash.transform.forward = gameObject.transform.forward;
             Destroy(muzzle_Flash, 1);
@@ -256,7 +263,7 @@ public class PlayerMove : MonoBehaviour
             if (Physics.Raycast(transform.position, transform.forward, out ray, 100))
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * ray.distance, Color.yellow);
-                if(ray.transform.tag == "enemy")
+                if (ray.transform.tag == "enemy")
                 {
                     ray.transform.GetComponentInParent<EnemyStatus>().HP -= PlayerAttackPower * 1;
 
@@ -343,7 +350,7 @@ public class PlayerMove : MonoBehaviour
             //missile.transform.rotation = Quaternion.LookRotation(gameObject.transform.rotation * Vector3.forward);
             missile.transform.forward = gameObject.transform.forward;
             mrigidbody.AddForce(gameObject.transform.forward * 2000.0f);
-            //QCool = 9.0f / PlayerAttackSpeed;
+            QCool = 9.0f / PlayerAttackSpeed;
         }
     }
 

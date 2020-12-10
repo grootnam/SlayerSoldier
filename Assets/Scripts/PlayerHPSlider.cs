@@ -18,8 +18,8 @@ public class PlayerHPSlider : MonoBehaviour
         //MaxHP = Player.GetComponent<PlayerMove>().MaxHP;
 
         HPSlider = GetComponent<Slider>();
-        //HPSlider.maxValue = MaxHP;
-        //HPSlider.value = MaxHP;
+        HPSlider.maxValue = CurrentHP;
+        HPSlider.value = CurrentHP;
     }
 
     // Update is called once per frame
