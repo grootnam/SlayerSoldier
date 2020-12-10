@@ -16159,7 +16159,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1275758960}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -16186,6 +16186,7 @@ MonoBehaviour:
     type: 3}
   isShiftskill: 0
   ShiftCool: 4
+  isNoDamagetime: 0
   PlayerHP: 100
   PlayerSpeed: 1
   PlayerAttackSpeed: 1
@@ -21139,13 +21140,11 @@ MonoBehaviour:
   BigBall: {fileID: 881354819729650159, guid: 595e19e0e788fa74aafe549703d72d70, type: 3}
   WarningB: {fileID: 6202352105469663157, guid: 4b412764011dae24bb00a986d5fddf9e,
     type: 3}
-  stick: {fileID: 0}
   WarningC: {fileID: 169957119}
   Lt: {fileID: 169957120}
-  ShakeOn: 0
-  m_force: 200
-  m_offset: {x: 10, y: 0, z: 10}
-  Cam: {fileID: 417575277}
+  m_force: 300
+  m_offset: {x: 10, y: 10, z: 0}
+  cam: {fileID: 747474029}
 --- !u!114 &1699547550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24045,6 +24044,8 @@ MonoBehaviour:
   JumpSound: {fileID: 8300000, guid: 1788f5f0ef6e5ef4e902dd48bc06d077, type: 3}
   SwordSound: {fileID: 8300000, guid: 9838c70120633d349a11e514a94c94f0, type: 3}
   SwordSound2: {fileID: 8300000, guid: 01a5019d31773954aa87c308897ff427, type: 3}
+  explosionSound: {fileID: 8300000, guid: 0579dc5d712b04b4291909f2dd3fd64e, type: 3}
+  EarthquakeSound: {fileID: 8300000, guid: 0a819c40c3986824b8f099ca7a8087f7, type: 3}
   isPlaying: 1
 --- !u!82 &1934437955
 AudioSource:

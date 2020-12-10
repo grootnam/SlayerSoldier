@@ -21,19 +21,15 @@ public class EnemyMove1 : MonoBehaviour
     public GameObject prefab_flame;      // 패턴A 이펙트 및 트리거
     public GameObject BigBall; //패턴B 구체프리팹
     public GameObject WarningB; // 패턴B의 경고위치를 표기하는 막대
-    public GameObject stick;
 
     public GameObject WarningC; //패턴C의 경고위치를 표기하는 라이트
     public Light Lt;
-    public bool ShakeOn;
-
-    Rigidbody m_rigidbody;
-
+    
     [SerializeField] float m_force = 0f;
     [SerializeField] Vector3 m_offset = Vector3.zero;
 
-    Quaternion m_originRot;
-    public GameObject Cam;
+    public GameObject cam;
+    Coroutine shake;
 
     void Start()
     {
@@ -43,8 +39,6 @@ public class EnemyMove1 : MonoBehaviour
 
         MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
         MonsterMaxHP = gameObject.GetComponent<EnemyStatus>().MaxHP;
-
-        m_originRot = Cam.transform.rotation;
     }
 
     void Update()
@@ -54,22 +48,19 @@ public class EnemyMove1 : MonoBehaviour
         {
             coolTime -= Time.deltaTime;
         }
-        //coolTime -= Time.deltaTime;
 
         MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
     }
-
-
 
     public bool IsDead()
     {
         if (MonsterHP <= 0)
         {
+            //gameObject.GetComponent<Animator>().SetBool("Dead", true);
             return false;
         }
         return true;
     }
-
     
     // 캐릭터 바라봄
     public bool MonsterRotation()
@@ -97,7 +88,7 @@ public class EnemyMove1 : MonoBehaviour
     // 쿨타임마다 무작위 패턴 사용
     public bool IsCooltime()
     {
-        if (coolTime <= 0&& !patternOn)
+        if (coolTime <= 0 && !patternOn)
         {
             coolTime = 4;
 
@@ -138,31 +129,38 @@ public class EnemyMove1 : MonoBehaviour
         flame.transform.LookAt(target);
        
         patternOn = false;
+        SoundManager.Instance.Stage1PatternA();
+        yield return new WaitForSeconds(2f);
     }
 
     IEnumerator PatternB()
     {
         WarningB.SetActive(true);
         Vector3[] warningpos = new Vector3[8];
+
+        System.Array.Clear(warningpos, 0, warningpos.Length);
+
         for (int i = 0; i < 8; i++)
         {
             GameObject MultiWarning = GameObject.Instantiate(WarningB) as GameObject;
             MultiWarning.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360),0);
-            warningpos[i] = WarningB.transform.forward;
+            warningpos[i] = MultiWarning.transform.forward;
         }
         yield return new WaitForSeconds(2f);
         //WarningB.SetActive(false);
 
 
-        for (int i=0;i<8;i++)
+        for (int i = 0; i < 8; i++)
         {
-            GameObject MultiBall = GameObject.Instantiate(BigBall) as GameObject;
-            m_rigidbody = MultiBall.GetComponent<Rigidbody>();
-            MultiBall.transform.position = new Vector3(0, 3, 0);
+            GameObject MultiBall = GameObject.Instantiate(BigBall);
+            //m_rigidbody = MultiBall.GetComponent<Rigidbody>();
+            MultiBall.transform.position = new Vector3(warningpos[i].x*2f, 1.5f, warningpos[i].z*2f);
             MultiBall.transform.LookAt(warningpos[i]);
-            m_rigidbody.AddForce(warningpos[i] * 50f);
-
+            MultiBall.GetComponent<Rigidbody>().AddForce(warningpos[i] * 1000f);
+            //MultiBall.transform.Translate(warningpos[i] * Time.deltaTime);
+            //m_rigidbody.AddForce(warningpos[i] * 50f);
         }
+        yield return new WaitForSeconds(2f);
         WarningB.SetActive(false);
         patternOn = false;
     }
@@ -171,36 +169,31 @@ public class EnemyMove1 : MonoBehaviour
     {
         WarningC.SetActive(true);
         WarningC.GetComponent<Light>().range = 50f;
-        while (WarningC.GetComponent<Light>().range >= 20f && ShakeOn == false)
+        while (WarningC.GetComponent<Light>().range >= 20f)
         {
             WarningC.GetComponent<Light>().range -= 0.5f;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.03f);
         }
         WarningC.SetActive(false);
-        //Shake();
-        if (WarningC.GetComponent<Light>().range<25f)
+        shake = StartCoroutine(Shake());
+        SoundManager.Instance.Stage1PatternC();
+        Debug.Log("흔들기 시작");
+        yield return new WaitForSeconds(0.5f);
+        if (!player.GetComponent<PlayerMove>().isNoDamagetime && player.GetComponent<PlayerMove>().canJump)
         {
-            StartCoroutine(Cameramove());
-            
-            yield return new WaitForSeconds(1f);
-            StartCoroutine(CameramoveReset());
+            player.GetComponent<PlayerMove>().PlayerHP -= 70;
         }
+        StopCoroutine(shake);
+        Debug.Log("흔들기 끝");
 
-        //if (!GetComponent<PlayerMove>().isShiftskill && !GetComponent<PlayerMove>().canJump)
-        //    {
-        //        GetComponent<PlayerMove>().PlayerHP -= 70;
-        //    }
+        yield return new WaitForSeconds(2f);
+        
         patternOn = false;
     }
 
-    //void Shake()
-    //{
-    //    StartCoroutine(Cameramove());
-    //}
-    IEnumerator Cameramove()
+    IEnumerator Shake()
     {
-        ShakeOn = true;
-        Vector3 t_originEuler = Cam.transform.eulerAngles;
+        Vector3 t_originEuler = cam.transform.eulerAngles;
         while (true)
         {
             float t_rotX = Random.Range(-m_offset.x, m_offset.x);
@@ -208,22 +201,12 @@ public class EnemyMove1 : MonoBehaviour
             float t_rotZ = Random.Range(-m_offset.z, m_offset.z);
             Vector3 t_randomRot = t_originEuler + new Vector3(t_rotX, t_rotY, t_rotZ);
             Quaternion t_rot = Quaternion.Euler(t_randomRot);
-            while (Quaternion.Angle(transform.rotation, t_rot) > 0.1f)
+            while (Quaternion.Angle(cam.transform.rotation, t_rot) > 0.1f)
             {
-                Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, t_rot, m_force * Time.deltaTime);
+                cam.transform.rotation = Quaternion.RotateTowards(cam.transform.rotation, t_rot, m_force * Time.deltaTime);
                 yield return null;
             }
 
-            yield return null;
-        }
-    }
-
-    IEnumerator CameramoveReset()
-    {
-        ShakeOn = false;
-        while (Quaternion.Angle(Cam.transform.rotation, m_originRot) > 0f)
-        {
-            Cam.transform.rotation = Quaternion.RotateTowards(Cam.transform.rotation, m_originRot, m_force * Time.deltaTime);
             yield return null;
         }
     }

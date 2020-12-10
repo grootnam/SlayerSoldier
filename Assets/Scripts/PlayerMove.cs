@@ -36,7 +36,7 @@ public class PlayerMove : MonoBehaviour
     public float Shift_temptime;
 
     
-    bool isNoDamagetime;
+    public bool isNoDamagetime;
     // for animation
     Animator armAnimator;
 
@@ -112,24 +112,15 @@ public class PlayerMove : MonoBehaviour
 
             Debug.Log("Hit! :"+other.GetComponentInParent<EnemySkill>().damage);
         }
-    }
 
-    private void OnCollisionEnter(Collision other)
-    {
         if (other.gameObject.tag == "BigBall")
         {
-            PlayerHP -= 15;
-            Destroy(GetComponent<EnemyMove1>().BigBall);
+            PlayerHP -= 30f;
+            //Destroy(GetComponent<EnemyMove1>().BigBall);
 
             Debug.Log("HitBigBall!");
         }
-
     }
-
-
-
-
-
 
 
     /* 플레이어 움직임에 관한 코드
@@ -374,12 +365,11 @@ public class PlayerMove : MonoBehaviour
             {
                 if (ray.transform.tag == "enemy")
                 {
-                    ray.transform.GetComponent<EnemyStatus>().HP -= PlayerAttackPower * 50;
-
                     Debug.Log("hit!");
                     Debug.Log(ray.transform.position);
                     // 사운드
                     SoundManager.Instance.PlaySwordSound();
+                    ray.transform.GetComponent<EnemyStatus>().HP -= PlayerAttackPower * 50;
                 }
             }
             else
