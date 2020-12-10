@@ -71,7 +71,7 @@ public class IsDead1 : Node1
 }
 
 
-public class IsCooltime1 : Node1
+public class phase1 : Node1
 {
     public EnemyMove1 Enemy
     {
@@ -80,10 +80,33 @@ public class IsCooltime1 : Node1
     private EnemyMove1 _Enemy;
     public override bool Invoke()
     {
-        return _Enemy.IsCooltime();
+        return _Enemy.phase1();
     }
 }
-
+public class phase2 : Node1
+{
+    public EnemyMove1 Enemy
+    {
+        set { _Enemy = value; }
+    }
+    private EnemyMove1 _Enemy;
+    public override bool Invoke()
+    {
+        return _Enemy.phase2();
+    }
+}
+public class phase3 : Node1
+{
+    public EnemyMove1 Enemy
+    {
+        set { _Enemy = value; }
+    }
+    private EnemyMove1 _Enemy;
+    public override bool Invoke()
+    {
+        return _Enemy.phase3();
+    }
+}
 public class MonsterRotation1 : Node1
 {
     public EnemyMove1 Enemy

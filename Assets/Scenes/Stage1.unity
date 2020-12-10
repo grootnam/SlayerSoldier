@@ -21050,7 +21050,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1699547547}
   - component: {fileID: 1699547546}
-  - component: {fileID: 1699547548}
   - component: {fileID: 1699547549}
   - component: {fileID: 1699547545}
   - component: {fileID: 1699547550}
@@ -21102,20 +21101,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1699547548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1699547544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbfc7b36993da0747a0250444e4da6f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxHP: 1000
-  HP: 0
 --- !u!114 &1699547549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21130,7 +21115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   phase: 0
   coolTime: 0
-  MonsterHP: 0
+  MonsterHP: 500
   MonsterMaxHP: 500
   player: {fileID: 1275758960}
   patternOn: 0

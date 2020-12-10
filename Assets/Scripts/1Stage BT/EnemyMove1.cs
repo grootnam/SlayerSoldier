@@ -6,7 +6,6 @@ public class EnemyMove1 : MonoBehaviour
 {
     float nTime;
 
-    public int phase;
     public float coolTime;
 
     public float MonsterHP;         // EnemyStatus 스크립트에서 가져옴
@@ -44,10 +43,8 @@ public class EnemyMove1 : MonoBehaviour
     void Update()
     {
         nTime += Time.deltaTime;
-        if(!patternOn)
-        {
-            coolTime -= Time.deltaTime;
-        }
+        coolTime -= Time.deltaTime;
+
 
         MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
     }
@@ -86,37 +83,90 @@ public class EnemyMove1 : MonoBehaviour
 
 
     // 쿨타임마다 무작위 패턴 사용
-    public bool IsCooltime()
+    public bool phase1()
     {
-        if (coolTime <= 0 && patternOn==false)
+        Debug.Log(MonsterHP);
+        if (MonsterHP >= 80f)
         {
-            coolTime = 4;
-
-            int pattern = Random.Range(1, 3);
-            Debug.Log("pattern = " + pattern);
-
-            patternOn = true;
-
-            if (pattern == 1)
+            Debug.Log("aha !");
+            if (coolTime <= 0 && patternOn == false)
             {
+                Debug.Log("aha1");
+                coolTime = 4;
+                Debug.Log("pattern = 1");
+
+                patternOn = true;
+
                 StartCoroutine(PatternA());
             }
-
-            if (pattern == 2)
+            return true;
+        }
+        return false;
+    }
+    public bool phase2()
+    {
+        if (MonsterHP <= 80f && MonsterHP >= 30f) 
+        {
+            Debug.Log("aha !!");
+          if (coolTime <= 0 && patternOn == false)
             {
-                StartCoroutine(PatternB());
+                Debug.Log("aha2");
+                coolTime = 4;
+
+                int pattern = Random.Range(1, 3);
+                Debug.Log("pattern = " + pattern);
+
+                patternOn = true;
+
+                if (pattern == 1)
+                {
+                    StartCoroutine(PatternA());
+                }
+
+                if (pattern == 2)
+                {
+                    StartCoroutine(PatternB());
+                }
             }
-
-            if (pattern == 3)
+            return true;
+        }
+        return false;
+    }
+    public bool phase3()
+    {
+        if (MonsterHP < 30f) 
+        {
+            Debug.Log("aha !!!");
+            if (coolTime <= 0 && patternOn == false)
             {
-                StartCoroutine(PatternC());
+                Debug.Log("aha3");
+                coolTime = 4;
+
+                int pattern = Random.Range(1, 4);
+                Debug.Log("pattern = " + pattern);
+
+                patternOn = true;
+
+                if (pattern == 1)
+                {
+                    StartCoroutine(PatternA());
+                }
+
+                if (pattern == 2)
+                {
+                    StartCoroutine(PatternB());
+                }
+
+                if (pattern == 3)
+                {
+                    StartCoroutine(PatternC());
+                }
             }
 
             return true;
         }
         return false;
     }
-
     IEnumerator PatternA()
     {
         Vector3 target = player.transform.position;
