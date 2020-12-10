@@ -41,8 +41,7 @@ public class EnemyAI1 : MonoBehaviour
 
 
         // 자식노드 연결
-        
-
+       
         seqMovingAttack1.AddChild(m_phase1);
         seqMovingAttack1.AddChild(m_phase2);
         seqMovingAttack1.AddChild(m_phase3);

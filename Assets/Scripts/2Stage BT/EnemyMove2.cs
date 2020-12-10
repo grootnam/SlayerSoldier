@@ -153,6 +153,7 @@ public class EnemyMove2 : MonoBehaviour
                 Spear.transform.localPosition=new Vector3(0.3f*Mathf.CeilToInt((float)i/2f),1,0);
             
             Spearlist.Add(Spear);
+            SoundManager.Instance.Stage2PatternAsword();
             yield return new WaitForSeconds(1f);
         }
 
@@ -169,6 +170,7 @@ public class EnemyMove2 : MonoBehaviour
             dir.Normalize();
             Spearlist[i].transform.eulerAngles=Spearlist[i].transform.eulerAngles+new Vector3(90,0,0);
             Spearlist[i].GetComponent<Rigidbody>().AddForce(dir*Pa_A_SpearPower,ForceMode.Impulse);
+            SoundManager.Instance.Stage2PatternAthrowing();
             yield return new WaitForSeconds(0.5f);
         }
         yield return new WaitForSeconds(5f);
@@ -181,12 +183,14 @@ public class EnemyMove2 : MonoBehaviour
         target.y = 1;
         B_warning.transform.LookAt(target);
         B_warning.SetActive(true);
+        SoundManager.Instance.PlayAlert();
 
         yield return new WaitForSeconds(2f);
 
         GameObject B_flame = GameObject.Instantiate(prefab_B_flame) as GameObject; 
         B_flame.transform.position = new Vector3(0, 0, 0);
         B_flame.transform.LookAt(target);
+        SoundManager.Instance.Stage2PatternB();
 
         B_warning.SetActive(false);
         patternOn = false;
@@ -203,6 +207,7 @@ public class EnemyMove2 : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         //애니메이션 실행
+        SoundManager.Instance.Stage2PatternC();
         gameObject.GetComponent<Animator>().SetBool("PatternC",true);
         yield return new WaitForSeconds(0.1f);
         gameObject.GetComponent<Animator>().SetBool("PatternC",false);

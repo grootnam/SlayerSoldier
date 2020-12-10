@@ -21113,8 +21113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77b4a6a54e6b7074297744ff6d15fed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: 0
-  coolTime: 0
+  coolTime: 7
   MonsterHP: 500
   MonsterMaxHP: 500
   player: {fileID: 1275758960}
@@ -24031,6 +24030,12 @@ MonoBehaviour:
   SwordSound2: {fileID: 8300000, guid: 01a5019d31773954aa87c308897ff427, type: 3}
   explosionSound: {fileID: 8300000, guid: 0579dc5d712b04b4291909f2dd3fd64e, type: 3}
   EarthquakeSound: {fileID: 8300000, guid: 0a819c40c3986824b8f099ca7a8087f7, type: 3}
+  BigBallSound: {fileID: 8300000, guid: 38b450e2adcb6f542acc8c1d423bd8dc, type: 3}
+  Stage2patternASound: {fileID: 0}
+  ThrowingSound: {fileID: 0}
+  fireSound: {fileID: 0}
+  forceSound: {fileID: 0}
+  AlertSound: {fileID: 8300000, guid: af6b745d1b00fa44fbd68d01c1d341db, type: 3}
   isPlaying: 1
 --- !u!82 &1934437955
 AudioSource:

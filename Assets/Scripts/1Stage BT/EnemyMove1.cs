@@ -88,10 +88,8 @@ public class EnemyMove1 : MonoBehaviour
         Debug.Log(MonsterHP);
         if (MonsterHP >= 80f)
         {
-            Debug.Log("aha !");
             if (coolTime <= 0 && patternOn == false)
             {
-                Debug.Log("aha1");
                 coolTime = 4;
                 Debug.Log("pattern = 1");
 
@@ -107,10 +105,8 @@ public class EnemyMove1 : MonoBehaviour
     {
         if (MonsterHP <= 80f && MonsterHP >= 30f) 
         {
-            Debug.Log("aha !!");
           if (coolTime <= 0 && patternOn == false)
             {
-                Debug.Log("aha2");
                 coolTime = 4;
 
                 int pattern = Random.Range(1, 3);
@@ -136,10 +132,8 @@ public class EnemyMove1 : MonoBehaviour
     {
         if (MonsterHP < 30f) 
         {
-            Debug.Log("aha !!!");
             if (coolTime <= 0 && patternOn == false)
             {
-                Debug.Log("aha3");
                 coolTime = 4;
 
                 int pattern = Random.Range(1, 4);
@@ -171,6 +165,7 @@ public class EnemyMove1 : MonoBehaviour
     {
         Vector3 target = player.transform.position;
         WarningA.SetActive(true);
+        SoundManager.Instance.PlayAlert();
         yield return new WaitForSeconds(1f); 
         WarningA.SetActive(false);
 
@@ -186,6 +181,7 @@ public class EnemyMove1 : MonoBehaviour
     IEnumerator PatternB()
     {
         WarningB.SetActive(true);
+        SoundManager.Instance.PlayAlert();
         Vector3[] warningpos = new Vector3[8];
 
         System.Array.Clear(warningpos, 0, warningpos.Length);
@@ -210,6 +206,7 @@ public class EnemyMove1 : MonoBehaviour
             //MultiBall.transform.Translate(warningpos[i] * Time.deltaTime);
             //m_rigidbody.AddForce(warningpos[i] * 50f);
         }
+        SoundManager.Instance.Stage1PatternC();
         yield return new WaitForSeconds(2f);
         WarningB.SetActive(false);
         patternOn = false;
@@ -218,6 +215,7 @@ public class EnemyMove1 : MonoBehaviour
     IEnumerator PatternC()
     {
         WarningC.SetActive(true);
+        SoundManager.Instance.PlayAlert();
         WarningC.GetComponent<Light>().range = 50f;
         while (WarningC.GetComponent<Light>().range >= 20f)
         {
@@ -227,14 +225,14 @@ public class EnemyMove1 : MonoBehaviour
         WarningC.SetActive(false);
         shake = StartCoroutine(Shake());
         SoundManager.Instance.Stage1PatternC();
-        Debug.Log("흔들기 시작");
+        Debug.Log("shake on");
         yield return new WaitForSeconds(0.5f);
         if (!player.GetComponent<PlayerMove>().isNoDamagetime && player.GetComponent<PlayerMove>().canJump)
         {
             player.GetComponent<PlayerMove>().PlayerHP -= 70;
         }
         StopCoroutine(shake);
-        Debug.Log("흔들기 끝");
+        Debug.Log("shake off");
 
         yield return new WaitForSeconds(2f);
         

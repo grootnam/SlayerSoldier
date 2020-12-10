@@ -116,7 +116,6 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.tag == "BigBall")
         {
             PlayerHP -= 30f;
-            //Destroy(GetComponent<EnemyMove1>().BigBall);
 
             Debug.Log("HitBigBall!");
         }
