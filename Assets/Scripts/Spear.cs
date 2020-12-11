@@ -20,7 +20,6 @@ public class Spear : MonoBehaviour
         if(other.gameObject.layer==LayerMask.NameToLayer("map")||other.gameObject.layer==LayerMask.NameToLayer("ground"))
         {
             gameObject.GetComponent<Rigidbody>().velocity=Vector3.zero;
-            Destroy(gameObject,2f);
         }
     }
     private void OnTriggerStay(Collider other)
@@ -28,7 +27,7 @@ public class Spear : MonoBehaviour
         if(other.gameObject.layer==LayerMask.NameToLayer("map")||other.gameObject.layer==LayerMask.NameToLayer("ground"))
         {
             gameObject.GetComponent<Rigidbody>().velocity=Vector3.zero;
-            Destroy(gameObject,2f);
+
         }
     }
 }

@@ -417,7 +417,6 @@ public class PlayerMove : MonoBehaviour
             
             //무적, 회피시간.
             StartCoroutine(Shiftskill(0.45f));
-            StartCoroutine(Not_damage(Shift_no_Damagetime));
         }
         
     }
@@ -425,15 +424,11 @@ public class PlayerMove : MonoBehaviour
     {
         yield return new WaitForSeconds(second);
         isShiftskill=false;
+        isNoDamagetime = false;
         rigidbody.velocity=Vector3.zero;
     }
 
-    //무적시간
-    IEnumerator Not_damage(float second)
-    {
-        yield return new WaitForSeconds(second);
-        isNoDamagetime = false;
-    }
+
 }
 
 

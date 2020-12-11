@@ -115,7 +115,8 @@ public class EnemyMove2 : MonoBehaviour
         {
             coolTime = 4;
 
-            int pattern = Random.Range(1, 4); //(1-3)범위 랜덤 수
+            //int pattern = Random.Range(1, 4); //(1-3)범위 랜덤 수
+            int pattern = 1;
             Debug.Log("pattern = " + pattern);
 
             // 패턴 재생 중
@@ -164,7 +165,7 @@ public class EnemyMove2 : MonoBehaviour
             
             Spearlist.Add(Spear);
             SoundManager.Instance.Stage2PatternAsword();
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.15f);
         }
 
         for(int i=0;i<count;i++)
@@ -175,13 +176,13 @@ public class EnemyMove2 : MonoBehaviour
             gameObject.transform.LookAt(target);
 
             // make spear orient the player
+            Spearlist[i].transform.parent=null;
             Spearlist[i].transform.LookAt(player.transform.position);
+            Spearlist[i].transform.eulerAngles = Spearlist[i].transform.eulerAngles+new Vector3(90,0,0);
 
             // set direction for throw
             Vector3 dir = player.transform.position - Spearlist[i].transform.position;
             dir.Normalize();
-
-            Spearlist[i].transform.eulerAngles = Spearlist[i].transform.eulerAngles+new Vector3(90,0,0);
 
             // throw
             Spearlist[i].GetComponent<Rigidbody>().AddForce(dir * Pa_A_SpearPower, ForceMode.Impulse);
@@ -191,10 +192,19 @@ public class EnemyMove2 : MonoBehaviour
 
             yield return new WaitForSeconds(0.5f);
         }
-
-        yield return new WaitForSeconds(3f);
+        //3초뒤 창 전체삭제
+        StartCoroutine(DeleteSpear(1.5f,Spearlist));
         patternOn = false;
     }
+    
+    IEnumerator DeleteSpear(float second,List<GameObject> Spearlist)
+    {
+        yield return new WaitForSeconds(second);
+        for(int i=0;i<Spearlist.Count;i++){
+            Destroy(Spearlist[i]);
+        }
+    }
+
 
     IEnumerator PatternB()
     {
@@ -229,23 +239,34 @@ public class EnemyMove2 : MonoBehaviour
 
     IEnumerator PatternC()
     {
-        for(int i=0;i<70;i++)
+        gameObject.GetComponent<Animator>().SetBool("Ccast",true);
+        for(int i=0;i<500;i++)
         {
-            Vector3 dir=gameObject.transform.position-player.transform.position;
-            dir.y=0;
+            //보스가 플레이어 쳐다봄
+            Vector3 target = player.transform.position;
+            target.y = gameObject.transform.position.y;
+            gameObject.transform.LookAt(target);
+
+            //끌어당기기
+            Vector3 bosspos=gameObject.transform.position;
+            bosspos.y=player.transform.position.y;
+            Vector3 dir=bosspos-player.transform.position;
             dir.Normalize();
-            player.GetComponent<Rigidbody>().AddForce(dir*1.5f,ForceMode.Impulse);
-            yield return new WaitForSeconds(0.1f);
+            player.transform.Translate(dir*0.15f,Space.World);
+            yield return new WaitForSeconds(0.01f);
         }
+        
+
         //애니메이션 실행
         SoundManager.Instance.Stage2PatternC();
         gameObject.GetComponent<Animator>().SetBool("PatternC",true);
         yield return new WaitForSeconds(0.1f);
+        gameObject.GetComponent<Animator>().SetBool("Ccast",false);
         gameObject.GetComponent<Animator>().SetBool("PatternC",false);
 
         //데미지
         PatternC_range.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         PatternC_range.SetActive(false);
         yield return new WaitForSeconds(2f);
         patternOn = false;
