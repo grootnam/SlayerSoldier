@@ -13,7 +13,7 @@ public class EnemyMove2 : MonoBehaviour
 
     public bool patternOn;                 // make TRUE when using pattern.
 
-    public int Pa_A_SpearPower = 50;
+    public int Pa_A_SpearPower = 50;        // for pattern A, speed at which a spear is blown
     public GameObject prefab_A_Object;      // for pattern A, skill effect
 
     public GameObject B_warning;            // for pattern B, warning light
@@ -143,19 +143,20 @@ public class EnemyMove2 : MonoBehaviour
 
     IEnumerator PatternA()
     {
-        //투사체의 개수 (3-5 사이 랜덤)
+        // 투사체의 개수 (3-5 사이 랜덤)
         int count=Random.Range(3, 6);
         List<GameObject> Spearlist = new List<GameObject>();
+
         for(int i=1;i<=count;i++)
         {
-            //투사체 쳐다보고있기
+            // Boss looking throw target
             Vector3 target = player.transform.position;
             target.y = gameObject.transform.position.y;
             gameObject.transform.LookAt(target);
 
-            //창 생성.
-            GameObject Spear=Instantiate(prefab_A_Object);
-            Spear.transform.parent=gameObject.transform;
+            // generate spear at back of the boss
+            GameObject Spear = Instantiate(prefab_A_Object) as GameObject;
+            Spear.transform.parent = gameObject.transform;
             if(i%2==0)
                 Spear.transform.localPosition=new Vector3(0.3f*-(Mathf.CeilToInt((float)i/2f)),1,0);
             else
@@ -163,26 +164,35 @@ public class EnemyMove2 : MonoBehaviour
             
             Spearlist.Add(Spear);
             SoundManager.Instance.Stage2PatternAsword();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.25f);
         }
 
         for(int i=0;i<count;i++)
         {
-            //투사체 쳐다보고있기
+            // Boss see a throwing-object
             Vector3 target = player.transform.position;
             target.y = gameObject.transform.position.y;
             gameObject.transform.LookAt(target);
 
-            //창 내려주고 발사
+            // make spear orient the player
             Spearlist[i].transform.LookAt(player.transform.position);
-            Vector3 dir=player.transform.position-Spearlist[i].transform.position;
+
+            // set direction for throw
+            Vector3 dir = player.transform.position - Spearlist[i].transform.position;
             dir.Normalize();
-            Spearlist[i].transform.eulerAngles=Spearlist[i].transform.eulerAngles+new Vector3(90,0,0);
-            Spearlist[i].GetComponent<Rigidbody>().AddForce(dir*Pa_A_SpearPower,ForceMode.Impulse);
+
+            Spearlist[i].transform.eulerAngles = Spearlist[i].transform.eulerAngles+new Vector3(90,0,0);
+
+            // throw
+            Spearlist[i].GetComponent<Rigidbody>().AddForce(dir * Pa_A_SpearPower, ForceMode.Impulse);
+
+            // play Spear-Throw sound
             SoundManager.Instance.Stage2PatternAthrowing();
+
             yield return new WaitForSeconds(0.5f);
         }
-        yield return new WaitForSeconds(5f);
+
+        yield return new WaitForSeconds(3f);
         patternOn = false;
     }
 
