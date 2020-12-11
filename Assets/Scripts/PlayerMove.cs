@@ -349,10 +349,11 @@ public class PlayerMove : MonoBehaviour
 
             //발사
             GameObject missile = GameObject.Instantiate(prefab_missile) as GameObject;
+            missile.transform.LookAt(gameObject.transform.right);
             mrigidbody = missile.GetComponent<Rigidbody>();
+            missile.transform.parent = null;
             missile.transform.position = GameObject.Find("Arm").transform.position;
             //missile.transform.rotation = Quaternion.LookRotation(gameObject.transform.rotation * Vector3.forward);
-            missile.transform.forward = gameObject.transform.forward;
             mrigidbody.AddForce(gameObject.transform.forward * 2000.0f);
             QCool = 9.0f / PlayerAttackSpeed;
         }

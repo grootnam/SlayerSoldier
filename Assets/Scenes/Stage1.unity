@@ -23903,6 +23903,7 @@ MonoBehaviour:
   AlertSound1: {fileID: 8300000, guid: 1da8235422c4f9a42833c156d6985269, type: 3}
   AlertSound2: {fileID: 0}
   MissileSound: {fileID: 8300000, guid: 13c4c55e1c1c01d4486a3ca984e898d4, type: 3}
+  MapReduceSound: {fileID: 0}
   isPlaying: 1
 --- !u!82 &1934437955
 AudioSource:
