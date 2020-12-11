@@ -4335,7 +4335,7 @@ MonoBehaviour:
   phase: 0
   coolTime: 0
   MonsterHP: 0
-  MonsterMaxHP: 500
+  MonsterMaxHP: 1000
   Pa_A_SpearPower: 50
   player: {fileID: 384877816}
   patternOn: 0
@@ -4374,7 +4374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfc7b36993da0747a0250444e4da6f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 100
+  MaxHP: 1000
   HP: 100
 --- !u!82 &284262164
 AudioSource:
@@ -5005,7 +5005,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &317832111
 Light:
   m_ObjectHideFlags: 0
