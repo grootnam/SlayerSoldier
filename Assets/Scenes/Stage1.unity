@@ -20776,7 +20776,7 @@ MonoBehaviour:
   Lt: {fileID: 169957120}
   m_force: 300
   m_offset: {x: 10, y: 10, z: 0}
-  cam: {fileID: 747474029}
+  cam: {fileID: 1275758960}
 --- !u!114 &1699547550
 MonoBehaviour:
   m_ObjectHideFlags: 0

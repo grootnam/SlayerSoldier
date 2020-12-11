@@ -84,7 +84,7 @@ public class EnemyMove1 : MonoBehaviour
     // 쿨타임마다 무작위 패턴 사용
     public bool phase1()
     {
-        if (MonsterHP >= 80f)
+        if (MonsterHP/MonsterMaxHP >= 0.8f)
         {
             if (coolTime <= 0 && patternOn == false)
             {
@@ -101,7 +101,7 @@ public class EnemyMove1 : MonoBehaviour
     }
     public bool phase2()
     {
-        if (MonsterHP <= 80f && MonsterHP >= 30f) 
+        if (MonsterHP / MonsterMaxHP <= 0.8f && MonsterHP / MonsterMaxHP >= 0.3f) 
         {
           if (coolTime <= 0 && patternOn == false)
             {
@@ -128,7 +128,7 @@ public class EnemyMove1 : MonoBehaviour
     }
     public bool phase3()
     {
-        if (MonsterHP < 30f) 
+        if (MonsterHP / MonsterMaxHP < 0.3f) 
         {
             if (coolTime <= 0 && patternOn == false)
             {
