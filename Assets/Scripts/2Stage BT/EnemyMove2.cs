@@ -4,37 +4,37 @@ using UnityEngine;
 
 public class EnemyMove2 : MonoBehaviour
 {
-    float nTime;
+    public int phase;           // monster has 3 phases. Map will be reduced when phase is changed.
+    public float coolTime;      // pattern cool-time. 
 
-    public int phase;
-    public float coolTime;
+    float MonsterHP;         // Get values from <EnemyStatus> script
+    float MonsterMaxHP;      // Get values from <EnemyStatus> script
+    GameObject player;
 
-    public float MonsterHP;         // EnemyStatus ��ũ��Ʈ���� ������
-    public float MonsterMaxHP;      // EnemyStatus ��ũ��Ʈ���� ������
-    public int Pa_A_SpearPower=50;
-    public GameObject player;       // �÷��̾��� ��ǥ�� �޾ƿ��� ���� ����
+    public bool patternOn;                 // make TRUE when using pattern.
 
-    public bool patternOn;                 // ������ �������̶�� true, �ƴϸ� false
+    public int Pa_A_SpearPower = 50;
+    public GameObject prefab_A_Object;      // for pattern A, skill effect
 
+    public GameObject B_warning;            // for pattern B, warning light
+    public GameObject prefab_B_flame;       //  for pattern B, skill effect
 
-    public GameObject B_warning;    // ����B�� �����ġ�� ǥ���ϴ� ����Ʈ
-    public GameObject prefab_B_flame;      // ����B�� ����Ʈ �� Ʈ����
-    public GameObject prefab_A_Object;
-    public GameObject PatternC_range;
+    public GameObject PatternC_range;       // for pattern C, warning effect
+
     void Start()
     {
-        nTime = 0;
-        coolTime = 7;
+        player = GameObject.Find("Player");
+        MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
+        MonsterMaxHP = gameObject.GetComponent<EnemyStatus>().MaxHP;
+
+        coolTime = 7;   // Applies only at start.
         phase = 1;
         patternOn = false;
 
-        MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
-        MonsterMaxHP = gameObject.GetComponent<EnemyStatus>().MaxHP;
     }
 
     void Update()
     {
-        nTime += Time.deltaTime;
         coolTime -= Time.deltaTime;
 
         MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
@@ -52,6 +52,9 @@ public class EnemyMove2 : MonoBehaviour
         return true;
     }
 
+    /*
+     * Pattern D : change phase and reduce map size.
+     */
     public bool Phase1to2()
     {
         if (phase==1 && MonsterHP <= MonsterMaxHP*0.65f)
@@ -64,6 +67,7 @@ public class EnemyMove2 : MonoBehaviour
 
         return false;
     }
+
     public bool Phase2to3()
     {
         if (phase == 2 && MonsterHP <= MonsterMaxHP * 0.3f)
@@ -77,7 +81,8 @@ public class EnemyMove2 : MonoBehaviour
         return false;
     }
 
-    // ĳ���͸� �ٶ󺻴�.
+
+    // monster lotate to look the player.
     public bool MonsterRotation()
     {
         if (!patternOn)
@@ -90,7 +95,7 @@ public class EnemyMove2 : MonoBehaviour
             return true;
         }
 
-        // ���� ���� ��
+        // when using pattern, do not lotate.
         else if (patternOn)
         {
             return true;
@@ -100,16 +105,17 @@ public class EnemyMove2 : MonoBehaviour
     }
 
 
-    // ��Ÿ�Ӹ��� ������ ���� ���
+    // Play pattern 
     public bool IsCooltime()
     {
-        if (coolTime <= 0&&patternOn==false)
+        if (coolTime <= 0 && patternOn==false)
         {
             coolTime = 4;
 
             int pattern = Random.Range(1, 4); //(1-3)범위 랜덤 수
             Debug.Log("pattern = " + pattern);
 
+            // 패턴 재생 중
             patternOn = true;
 
             if (pattern == 1)
@@ -179,19 +185,31 @@ public class EnemyMove2 : MonoBehaviour
 
     IEnumerator PatternB()
     {
+        // 타겟 위치 지정
         Vector3 target = player.transform.position;
         target.y = 1;
+
+        // 타겟 위치를 바라봄
         B_warning.transform.LookAt(target);
+
+        // 경고등 활성화
         B_warning.SetActive(true);
+
+        // 경고음 재생
         SoundManager.Instance.PlayStage2Alert();
 
+        // 2초 뒤
         yield return new WaitForSeconds(2f);
 
+        // 화염 발사
         GameObject B_flame = GameObject.Instantiate(prefab_B_flame) as GameObject; 
         B_flame.transform.position = new Vector3(0, 0, 0);
         B_flame.transform.LookAt(target);
+        
+        // 화염 사운드
         SoundManager.Instance.Stage2PatternB();
 
+        // 경고등 비활성화
         B_warning.SetActive(false);
         patternOn = false;
     }
@@ -221,13 +239,9 @@ public class EnemyMove2 : MonoBehaviour
     }
 
 
-    //����D
+    // pattern D 
     IEnumerator ReduceMapSize(int phase)
     {
-        // ���̷��� �ִϸ��̼� ���
-        // ���̷��� �Ҹ�(��ȿ) ���
-        // �� �پ��� �Ҹ� ���
-
         Vector3 north = new Vector3(0, 0, -1);
         Vector3 east = new Vector3(-1, 0, 0);
         Vector3 west = new Vector3(1, 0, 0);
@@ -246,7 +260,10 @@ public class EnemyMove2 : MonoBehaviour
         {
             reduceSize = 5;
         }
+
         SoundManager.Instance.PlayStage2MapReduce();
+
+        // moves wall slowly 
         for (int i = 0; i < 45; i++)
         {
             yield return new WaitForSeconds(1.5f/45f);
