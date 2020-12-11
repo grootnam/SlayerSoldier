@@ -116,6 +116,7 @@ public class EnemyMove2 : MonoBehaviour
             coolTime = 4;
 
             int pattern = Random.Range(1, 4); //(1-3)범위 랜덤 수
+
             Debug.Log("pattern = " + pattern);
 
             // 패턴 재생 중
@@ -239,6 +240,7 @@ public class EnemyMove2 : MonoBehaviour
     IEnumerator PatternC()
     {
         gameObject.GetComponent<Animator>().SetBool("Ccast",true);
+        SoundManager.Instance.PlayStage2PatternC_1();
         for(int i=0;i<500;i++)
         {
             //보스가 플레이어 쳐다봄
@@ -254,7 +256,7 @@ public class EnemyMove2 : MonoBehaviour
             player.transform.Translate(dir*0.15f,Space.World);
             yield return new WaitForSeconds(0.01f);
         }
-        
+        SoundManager.Instance.pauseStage2PatternC_1();
 
         //애니메이션 실행
         SoundManager.Instance.Stage2PatternC();

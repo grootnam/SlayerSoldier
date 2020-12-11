@@ -6,8 +6,9 @@ public class SoundManager : MonoBehaviour
 {
 
     public AudioClip MainMusic, AttackSound, ReloadSound, JumpSound, SwordSound, SwordSound2, explosionSound,
-        EarthquakeSound, BigBallSound, Stage2patternASound, ThrowingSound, fireSound, forceSound, AlertSound1, AlertSound2, MissileSound, MapReduceSound;
+        EarthquakeSound, BigBallSound, Stage2patternASound, ThrowingSound, fireSound, forceSound, AlertSound1, AlertSound2, MissileSound, MapReduceSound, windSound;
     AudioSource MyAudio;
+    AudioSource windaudio;
     public static SoundManager Instance;
     public bool isPlaying;
 
@@ -22,6 +23,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         MyAudio = GetComponent<AudioSource>();
+        windaudio=gameObject.AddComponent<AudioSource>();
         isPlaying = false;
     }
 
@@ -102,6 +104,13 @@ public class SoundManager : MonoBehaviour
     public void PlayStage2MapReduce()
     {
         MyAudio.PlayOneShot(MapReduceSound);
+    }
+    public void PlayStage2PatternC_1(){
+        windaudio.clip=windSound;
+        windaudio.Play();
+    }
+    public void pauseStage2PatternC_1(){
+        windaudio.Stop();
     }
     // Update is called once per frame
     void Update()

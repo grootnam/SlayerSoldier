@@ -16,6 +16,8 @@ public class UImanager : MonoBehaviour
     public Text Eskill;
 
     public Text Shiftskill;
+    public Text Qskillcool;
+    public Text Eskillcool;
     public Text Shiftskillcool;
     GameObject Player;
 
@@ -57,7 +59,10 @@ public class UImanager : MonoBehaviour
         //스킬 쿨타임 표시
         float shiftcool=GameObject.Find("Player").GetComponent<PlayerMove>().Shift_temptime;
         Shiftskillcool.text="("+shiftcool.ToString("N1")+")";
-
+        float Ecool=GameObject.Find("Player").GetComponent<PlayerMove>().ECool;
+        Eskillcool.text="("+Ecool.ToString("N1")+")";
+        float Qcool=GameObject.Find("Player").GetComponent<PlayerMove>().QCool;
+        Qskillcool.text="("+Qcool.ToString("N1")+")";
 
         //Q, E, Shift 스킬
         if (Input.GetKey(KeyCode.Q))

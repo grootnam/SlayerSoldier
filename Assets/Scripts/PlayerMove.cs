@@ -22,12 +22,14 @@ public class PlayerMove : MonoBehaviour
     public GameObject muzzleFlash;
 
     //for Qskill
-    float QCool;
+    [System.NonSerialized]
+    public float QCool;
     public GameObject prefab_missile;
     Rigidbody mrigidbody;
 
     //for Eskill
-    float ECool;
+    [System.NonSerialized]
+    public float ECool;
     bool isEskill;
 
     // 시프트 스킬 (? 왜다들 영어주석이지?) ㅋㅋㅋㅋ성재가시작했음
