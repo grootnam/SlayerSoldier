@@ -70,8 +70,6 @@ public class PlayerMove : MonoBehaviour
         isShiftskill = false;
         isNoDamagetime = false;
         canJump = true;
-
-        DontDestroyOnLoad(gameObject);
     }
 
     void Update()

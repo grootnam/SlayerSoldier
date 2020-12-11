@@ -21,16 +21,18 @@ public class EnemyMove2 : MonoBehaviour
 
     public GameObject PatternC_range;       // for pattern C, warning effect
 
-    void Start()
+    void Awake()
     {
         player = GameObject.Find("Player");
         MonsterHP = gameObject.GetComponent<EnemyStatus>().HP;
         MonsterMaxHP = gameObject.GetComponent<EnemyStatus>().MaxHP;
+    }
 
-        coolTime = 7;   // Applies only at start.
+    private void Start()
+    {
         phase = 1;
+        coolTime = 7;   // Applies only at start. (for wake-up directing)
         patternOn = false;
-
     }
 
     void Update()
@@ -57,7 +59,7 @@ public class EnemyMove2 : MonoBehaviour
      */
     public bool Phase1to2()
     {
-        if (phase==1 && MonsterHP <= MonsterMaxHP*0.65f)
+        if (phase==1 && (MonsterHP <= (MonsterMaxHP*0.65f)))
         {
             StartCoroutine(ReduceMapSize(phase));
 
@@ -72,6 +74,7 @@ public class EnemyMove2 : MonoBehaviour
     {
         if (phase == 2 && MonsterHP <= MonsterMaxHP * 0.3f)
         {
+            Debug.Log("여기 왜걸려요");
             StartCoroutine(ReduceMapSize(phase));
 
             phase = 3;

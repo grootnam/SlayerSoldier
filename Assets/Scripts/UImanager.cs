@@ -26,6 +26,7 @@ public class UImanager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1;
         ResultPopupClear.SetActive(false);
         ResultPopupOver.SetActive(false);
         IsPause = false;
