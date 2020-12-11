@@ -53,7 +53,6 @@ public class EnemyMove1 : MonoBehaviour
     {
         if (MonsterHP <= 0)
         {
-            //gameObject.GetComponent<Animator>().SetBool("Dead", true);
             return false;
         }
         return true;
@@ -192,18 +191,15 @@ public class EnemyMove1 : MonoBehaviour
             warningpos[i] = MultiWarning.transform.forward;
         }
         yield return new WaitForSeconds(2f);
-        //WarningB.SetActive(false);
 
 
         for (int i = 0; i < 8; i++)
         {
             GameObject MultiBall = GameObject.Instantiate(BigBall);
-            //m_rigidbody = MultiBall.GetComponent<Rigidbody>();
-            MultiBall.transform.position = new Vector3(warningpos[i].x*2f, 1.5f, warningpos[i].z*2f);
+            MultiBall.transform.position = new Vector3(warningpos[i].x*10f, 1.5f, warningpos[i].z*10f);
             MultiBall.transform.LookAt(warningpos[i]);
-            MultiBall.GetComponent<Rigidbody>().AddForce(warningpos[i] * 1000f);
-            //MultiBall.transform.Translate(warningpos[i] * Time.deltaTime);
-            //m_rigidbody.AddForce(warningpos[i] * 50f);
+            MultiBall.GetComponent<Rigidbody>().AddForce(warningpos[i] * 2000f);
+         
         }
         SoundManager.Instance.Stage1PatternC();
         yield return new WaitForSeconds(2f);
