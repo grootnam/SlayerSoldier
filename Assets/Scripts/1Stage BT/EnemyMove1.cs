@@ -85,7 +85,6 @@ public class EnemyMove1 : MonoBehaviour
     // 쿨타임마다 무작위 패턴 사용
     public bool phase1()
     {
-        Debug.Log(MonsterHP);
         if (MonsterHP >= 80f)
         {
             if (coolTime <= 0 && patternOn == false)

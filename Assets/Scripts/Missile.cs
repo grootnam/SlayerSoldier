@@ -34,7 +34,7 @@ public class Missile : MonoBehaviour
         {
             Debug.Log("missile & map 충돌");
             // 충돌 사운드
-
+            SoundManager.Instance.PlayMissile();
             // 충돌 효과
             GameObject flame = GameObject.Instantiate(effect) as GameObject;
             flame.transform.position = gameObject.transform.position;

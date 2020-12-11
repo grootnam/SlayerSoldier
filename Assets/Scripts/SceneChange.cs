@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneChange : MonoBehaviour
 {
+    public void GoToMain()
+    {
+        SceneManager.LoadScene("Main");
+    }
     public void GoToStage1()
     {
         SceneManager.LoadScene("Stage1");
@@ -13,29 +17,13 @@ public class SceneChange : MonoBehaviour
     {
         SceneManager.LoadScene("Stage2");
     }
-    public void GoToStage3()
-    {
-        SceneManager.LoadScene("Stage3");
-    }
-    public void GoToStage4()
-    {
-        SceneManager.LoadScene("Stage4");
-    }
-    public void GoToMain()
-    {
-        SceneManager.LoadScene("Main");
-    }
 
-    public void GoToSelectStage()
+    public void Quit()
     {
-        SceneManager.LoadScene("SelectStage");
-    }
-    public void GameOver1()
-    {
-        SceneManager.LoadScene("GameOver1");
-    }
-    public void GoToTestSampleScene1()
-    {
-        SceneManager.LoadScene("SampleScene1");
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit() // 어플리케이션 종료
+        #endif
     }
 }

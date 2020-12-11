@@ -16,10 +16,11 @@ public class EnemyStatus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (HP <= 0 && !FindObjectOfType<UImanager>().isStageOver)
+        if (HP <= 0f && !FindObjectOfType<UImanager>().isStageOver)
         {
             FindObjectOfType<UImanager>().stageClear();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

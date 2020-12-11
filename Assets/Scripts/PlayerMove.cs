@@ -74,18 +74,23 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        Jump();
-        MouseMove();
-        Reload();
-        Eskill();
-        Qskill();
-        Shiftskill();
-        coolTime();
-        Shoot();
+        if (!FindObjectOfType<UImanager>().isStageOver)
+        {
+            Jump();
+            MouseMove();
+            Reload();
+            Eskill();
+            Qskill();
+            Shiftskill();
+            coolTime();
+            Shoot();
+        }
 
         if (PlayerHP <= 0 && !FindObjectOfType<UImanager>().isStageOver)
         {
             FindObjectOfType<UImanager>().stageOver();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 

@@ -47,7 +47,7 @@ public class EnemyAI2 : MonoBehaviour
         seqMovingAttack.AddChild(m_Phase2to3);
         seqMovingAttack.AddChild(m_IsCooltime);
         seqMovingAttack.AddChild(m_MonsterRotation);
-
+        Debug.Log("Stage2Node");
 
         behaviorProcess = BehaviorProcess();
         StartCoroutine(behaviorProcess);
