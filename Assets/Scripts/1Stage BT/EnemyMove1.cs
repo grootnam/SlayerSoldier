@@ -165,7 +165,7 @@ public class EnemyMove1 : MonoBehaviour
     {
         Vector3 target = player.transform.position;
         WarningA.SetActive(true);
-        SoundManager.Instance.PlayAlert();
+        SoundManager.Instance.PlayStage1Alert();
         yield return new WaitForSeconds(1f); 
         WarningA.SetActive(false);
 
@@ -181,7 +181,7 @@ public class EnemyMove1 : MonoBehaviour
     IEnumerator PatternB()
     {
         WarningB.SetActive(true);
-        SoundManager.Instance.PlayAlert();
+        SoundManager.Instance.PlayStage1Alert();
         Vector3[] warningpos = new Vector3[8];
 
         System.Array.Clear(warningpos, 0, warningpos.Length);
@@ -215,7 +215,7 @@ public class EnemyMove1 : MonoBehaviour
     IEnumerator PatternC()
     {
         WarningC.SetActive(true);
-        SoundManager.Instance.PlayAlert();
+        SoundManager.Instance.PlayStage1Alert();
         WarningC.GetComponent<Light>().range = 50f;
         while (WarningC.GetComponent<Light>().range >= 20f)
         {

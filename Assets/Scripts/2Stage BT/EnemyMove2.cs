@@ -183,7 +183,7 @@ public class EnemyMove2 : MonoBehaviour
         target.y = 1;
         B_warning.transform.LookAt(target);
         B_warning.SetActive(true);
-        SoundManager.Instance.PlayAlert();
+        SoundManager.Instance.PlayStage2Alert();
 
         yield return new WaitForSeconds(2f);
 
@@ -246,11 +246,10 @@ public class EnemyMove2 : MonoBehaviour
         {
             reduceSize = 5;
         }
-
+        SoundManager.Instance.PlayStage2MapReduce();
         for (int i = 0; i < 45; i++)
         {
             yield return new WaitForSeconds(1.5f/45f);
-
             GameObject.Find("Wall_North").transform.position += north * reduceSize / 45;
             GameObject.Find("Wall_East").transform.position += east * reduceSize / 45;
             GameObject.Find("Wall_West").transform.position += west * reduceSize / 45 ;

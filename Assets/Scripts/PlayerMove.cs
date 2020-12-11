@@ -333,7 +333,6 @@ public class PlayerMove : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && QCool <= 0 && !isReloading&& !isEskill)
         {
-            //발사 소리 
 
             //반동
             float reboundX = Random.Range(-1.5f, 1.5f) * PlayerGunRebound;

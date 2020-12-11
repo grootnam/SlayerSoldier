@@ -8408,7 +8408,10 @@ MonoBehaviour:
   ThrowingSound: {fileID: 8300000, guid: c7c51efad0284c64ea9ddb0a1f44230e, type: 3}
   fireSound: {fileID: 8300000, guid: 1c83da37ad6c5db4585db9e2638b6d1d, type: 3}
   forceSound: {fileID: 8300000, guid: 33e19a2a8d1bf8e4abcae1a843d94eea, type: 3}
-  AlertSound: {fileID: 8300000, guid: c7e5602fa5a0955468274bc39609d947, type: 3}
+  AlertSound1: {fileID: 0}
+  AlertSound2: {fileID: 8300000, guid: c7e5602fa5a0955468274bc39609d947, type: 3}
+  MissileSound: {fileID: 8300000, guid: 13c4c55e1c1c01d4486a3ca984e898d4, type: 3}
+  MapReduceSound: {fileID: 8300000, guid: 03b9be4360ec32e4e99a882bec5bf3c9, type: 3}
   isPlaying: 1
 --- !u!82 &591218760
 AudioSource:
@@ -8422,7 +8425,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 88f916e7699df984cb79254fefc8024d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.192
+  m_Volume: 0.165
   m_Pitch: 1
   Loop: 1
   Mute: 0

@@ -23898,9 +23898,11 @@ MonoBehaviour:
   BigBallSound: {fileID: 8300000, guid: 38b450e2adcb6f542acc8c1d423bd8dc, type: 3}
   Stage2patternASound: {fileID: 0}
   ThrowingSound: {fileID: 0}
-  fireSound: {fileID: 0}
+  fireSound: {fileID: 8300000, guid: 1c83da37ad6c5db4585db9e2638b6d1d, type: 3}
   forceSound: {fileID: 0}
-  AlertSound: {fileID: 8300000, guid: af6b745d1b00fa44fbd68d01c1d341db, type: 3}
+  AlertSound1: {fileID: 8300000, guid: 1da8235422c4f9a42833c156d6985269, type: 3}
+  AlertSound2: {fileID: 0}
+  MissileSound: {fileID: 8300000, guid: 13c4c55e1c1c01d4486a3ca984e898d4, type: 3}
   isPlaying: 1
 --- !u!82 &1934437955
 AudioSource:
