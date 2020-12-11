@@ -20789,8 +20789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbfc7b36993da0747a0250444e4da6f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 100
-  HP: 100
+  MaxHP: 1000
+  HP: 1000
 --- !u!4 &1702444620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5239272197777735519, guid: e348e7143b6247b488737e4be26fb038,
